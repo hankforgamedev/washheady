@@ -4,6 +4,9 @@ on:
   push:
   pull_request:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: macos-15
@@ -24,5 +27,69 @@ jobs:
             -scheme WashHead \
             -configuration Debug \
             -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath "$RUNNER_TEMP/WashHeadDerivedData" \
             CODE_SIGNING_ALLOWED=NO \
             build
+
+      - name: Launch app and capture actual Simulator screen
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          RUNTIME_ID="$(xcrun simctl list runtimes -j | python3 -c '
+          import json, sys
+          runtimes = [
+              item for item in json.load(sys.stdin)["runtimes"]
+              if item.get("isAvailable") and ".iOS-" in item["identifier"]
+          ]
+          runtimes.sort(key=lambda item: tuple(map(int, item["version"].split("."))))
+          print(runtimes[-1]["identifier"])
+          ')"
+
+          DEVICE_TYPE_ID="$(xcrun simctl list devicetypes -j | python3 -c '
+          import json, sys
+          devices = json.load(sys.stdin)["devicetypes"]
+          preferred = ["iPhone 16 Pro", "iPhone 16", "iPhone 15 Pro", "iPhone 15"]
+          selected = next(
+              (item for name in preferred for item in devices if item["name"] == name),
+              next(item for item in devices if item["name"].startswith("iPhone"))
+          )
+          print(selected["identifier"])
+          ')"
+
+          DEVICE_UDID="$(xcrun simctl create "WashHead Screenshot" "$DEVICE_TYPE_ID" "$RUNTIME_ID")"
+          cleanup() {
+            xcrun simctl shutdown "$DEVICE_UDID" || true
+            xcrun simctl delete "$DEVICE_UDID" || true
+          }
+          trap cleanup EXIT
+
+          xcrun simctl boot "$DEVICE_UDID"
+          xcrun simctl bootstatus "$DEVICE_UDID" -b
+          xcrun simctl status_bar "$DEVICE_UDID" override --time 9:41 --batteryState charged --batteryLevel 100 || true
+          xcrun simctl install "$DEVICE_UDID" "$RUNNER_TEMP/WashHeadDerivedData/Build/Products/Debug-iphonesimulator/WashHead.app"
+          xcrun simctl launch "$DEVICE_UDID" com.hankforgamedev.washheady
+          sleep 5
+
+          mkdir -p screenshots
+          xcrun simctl io "$DEVICE_UDID" screenshot screenshots/main.png
+
+      - name: Upload Simulator screenshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: washhead-simulator-screenshot
+          path: screenshots/main.png
+
+      - name: Publish current screenshot in repository
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        shell: bash
+        run: |
+          mkdir -p docs/screenshots
+          cp screenshots/main.png docs/screenshots/main.png
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/screenshots/main.png
+          if ! git diff --cached --quiet; then
+            git commit -m "Update actual Simulator screenshot [skip ci]"
+            git push
+          fi
