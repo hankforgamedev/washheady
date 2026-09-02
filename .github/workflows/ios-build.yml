@@ -9,8 +9,8 @@ permissions:
 
 jobs:
   build:
-    runs-on: macos-15-intel
-    timeout-minutes: 12
+    runs-on: macos-15
+    timeout-minutes: 15
 
     steps:
       - name: Checkout
@@ -31,60 +31,22 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             build
 
-      - name: Launch app and capture actual Simulator screen
-        shell: bash
+      - name: Render current SwiftUI screen on macOS
         run: |
-          set -euo pipefail
-
-          RUNTIME_ID="$(xcrun simctl list runtimes -j | python3 -c '
-          import json, sys
-          runtimes = [
-              item for item in json.load(sys.stdin)["runtimes"]
-              if item.get("isAvailable") and ".iOS-" in item["identifier"]
-          ]
-          runtimes.sort(key=lambda item: tuple(map(int, item["version"].split("."))))
-          print(runtimes[-1]["identifier"])
-          ')"
-
-          DEVICE_TYPE_ID="$(xcrun simctl list devicetypes -j | python3 -c '
-          import json, sys
-          devices = json.load(sys.stdin)["devicetypes"]
-          preferred = ["iPhone 16 Pro", "iPhone 16", "iPhone 15 Pro", "iPhone 15"]
-          selected = next(
-              (item for name in preferred for item in devices if item["name"] == name),
-              next(item for item in devices if item["name"].startswith("iPhone"))
-          )
-          print(selected["identifier"])
-          ')"
-
-          DEVICE_UDID="$(xcrun simctl create "WashHead Screenshot" "$DEVICE_TYPE_ID" "$RUNTIME_ID")"
-          cleanup() {
-            xcrun simctl shutdown "$DEVICE_UDID" || true
-            xcrun simctl delete "$DEVICE_UDID" || true
-          }
-          trap cleanup EXIT
-
-          xcrun simctl boot "$DEVICE_UDID"
-          DEVICE_UDID="$DEVICE_UDID" python3 -c '
-          import os, subprocess
-          subprocess.run(
-              ["xcrun", "simctl", "bootstatus", os.environ["DEVICE_UDID"], "-b"],
-              check=True,
-              timeout=240
-          )
-          '
-          xcrun simctl status_bar "$DEVICE_UDID" override --time 9:41 --batteryState charged --batteryLevel 100 || true
-          xcrun simctl install "$DEVICE_UDID" "$RUNNER_TEMP/WashHeadDerivedData/Build/Products/Debug-iphonesimulator/WashHead.app"
-          xcrun simctl launch "$DEVICE_UDID" com.hankforgamedev.washheady
-          sleep 5
-
           mkdir -p screenshots
-          xcrun simctl io "$DEVICE_UDID" screenshot screenshots/main.png
+          xcrun swiftc \
+            -parse-as-library \
+            WashHead/CharacterHeadView.swift \
+            Tools/SnapshotRenderer/Renderer.swift \
+            -o "$RUNNER_TEMP/washhead-snapshot" \
+            -framework SwiftUI \
+            -framework AppKit
+          SNAPSHOT_OUTPUT="$PWD/screenshots/main.png" "$RUNNER_TEMP/washhead-snapshot"
 
-      - name: Upload Simulator screenshot
+      - name: Upload SwiftUI screenshot
         uses: actions/upload-artifact@v4
         with:
-          name: washhead-simulator-screenshot
+          name: washhead-swiftui-screenshot
           path: screenshots/main.png
 
       - name: Publish current screenshot in repository
@@ -97,6 +59,6 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add docs/screenshots/main.png
           if ! git diff --cached --quiet; then
-            git commit -m "Update actual Simulator screenshot [skip ci]"
+            git commit -m "Update cloud SwiftUI screenshot [skip ci]"
             git push
           fi
