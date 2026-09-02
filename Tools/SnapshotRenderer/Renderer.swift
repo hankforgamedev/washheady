@@ -62,7 +62,7 @@ private struct SnapshotMainScreen: View {
                     snapshotButton(
                         title: "要啊",
                         foreground: .white,
-                        background: Color(red: 0.12, green: 0.54, blue: 0.86)
+                        background: Color(red: 0.10, green: 0.62, blue: 0.34)
                     )
                 }
                 .padding(.top, 4)
