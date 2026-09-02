@@ -1,5 +1,7 @@
 # 洗頭了沒
 
+[![iOS build](https://github.com/hankforgamedev/washheady/actions/workflows/ios-build.yml/badge.svg)](https://github.com/hankforgamedev/washheady/actions/workflows/ios-build.yml)
+
 一顆會依你洗不洗頭而改變的巨大頭。這是一天內完成、讓家人能直接玩的原生 iOS SwiftUI Demo；不是健康追蹤器，也不會對沒洗頭說教。
 
 ## 已實作
