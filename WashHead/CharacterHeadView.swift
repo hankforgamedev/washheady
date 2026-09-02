@@ -4,6 +4,7 @@ struct CharacterHeadView: View {
     let messinessLevel: Int
     var wetProgress: Double = 0
     var isUnknown = false
+    var hairOffset: CGSize = .zero
 
     private var clampedMessiness: CGFloat {
         CGFloat(min(3, max(0, messinessLevel)))
@@ -23,8 +24,13 @@ struct CharacterHeadView: View {
                 HairCloud(color: hairColor)
                     .frame(width: side * 0.82, height: side * 0.58)
                     .scaleEffect(hairScale)
-                    .offset(y: -side * 0.18)
+                    .rotationEffect(.degrees(Double(hairOffset.width / 38)))
+                    .offset(
+                        x: hairOffset.width * 0.50,
+                        y: -side * 0.18 + hairOffset.height * 0.30
+                    )
                     .animation(.spring(response: 0.45, dampingFraction: 0.62), value: messinessLevel)
+                    .animation(.interactiveSpring(response: 0.20, dampingFraction: 0.62), value: hairOffset)
 
                 HStack(spacing: side * 0.55) {
                     Circle().fill(faceColor)
@@ -47,7 +53,14 @@ struct CharacterHeadView: View {
                 HairFringe(color: hairColor)
                     .frame(width: side * 0.64, height: side * 0.28)
                     .scaleEffect(x: hairScale, y: 1 + clampedMessiness * 0.05)
-                    .offset(y: -side * 0.17 + clampedMessiness * side * 0.012)
+                    .rotationEffect(.degrees(Double(hairOffset.width / 30)))
+                    .offset(
+                        x: hairOffset.width * 0.72,
+                        y: -side * 0.17
+                            + clampedMessiness * side * 0.012
+                            + hairOffset.height * 0.42
+                    )
+                    .animation(.interactiveSpring(response: 0.18, dampingFraction: 0.58), value: hairOffset)
 
                 if isUnknown {
                     Text("?")

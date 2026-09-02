@@ -6,22 +6,21 @@ struct WashInteractionView: View {
     @Binding var trustUser: Bool
     let onWashed: (_ trustedAutomatically: Bool) -> Void
 
-    @State private var showerPosition = CGPoint.zero
     @State private var previousDragPosition: CGPoint?
+    @State private var touchPosition = CGPoint.zero
+    @State private var hairOffset = CGSize.zero
     @State private var wetProgress: CGFloat = 0
+    @State private var isTouchingHair = false
     @State private var reachedGoal = false
     @State private var showConfirmation = false
     @State private var rememberTrust = false
 
     var body: some View {
         GeometryReader { geometry in
-            let hairArea = hairHitArea(in: geometry.size)
-            let isOverHair = hairArea.contains(showerPosition)
-
             ZStack {
                 Color(red: 0.82, green: 0.92, blue: 0.95).ignoresSafeArea()
 
-                VStack(spacing: 6) {
+                VStack(spacing: 4) {
                     HStack {
                         Button {
                             isPresented = false
@@ -37,47 +36,47 @@ struct WashInteractionView: View {
 
                         Spacer()
 
-                        Text(wetProgress < 0.82 ? "把蓮蓬頭拖到頭髮上" : "差一點，再淋一下")
+                        Text(instruction)
                             .font(.system(size: 18, weight: .black, design: .rounded))
+                            .multilineTextAlignment(.trailing)
                     }
                     .padding(.horizontal, 18)
                     .padding(.top, max(8, geometry.safeAreaInsets.top))
 
-                    CharacterHeadView(messinessLevel: messinessLevel, wetProgress: Double(wetProgress))
-                        .frame(height: geometry.size.height * 0.68)
-                        .frame(maxWidth: .infinity)
+                    GeometryReader { headGeometry in
+                        ZStack {
+                            CharacterHeadView(
+                                messinessLevel: messinessLevel,
+                                wetProgress: Double(wetProgress),
+                                hairOffset: hairOffset
+                            )
+                            .contentShape(Rectangle())
+                            .gesture(
+                                DragGesture(minimumDistance: 0, coordinateSpace: .local)
+                                    .onChanged { value in
+                                        handleHairDrag(value.location, in: headGeometry.size)
+                                    }
+                                    .onEnded { _ in
+                                        endHairDrag()
+                                    }
+                            )
+                            .accessibilityLabel("可直接搓揉的頭髮")
 
-                    Text(isOverHair ? "對，就是那裡。" : "抓住藍色蓮蓬頭")
+                            if isTouchingHair {
+                                FingerWaterEffect()
+                                    .frame(width: 92, height: 92)
+                                    .position(touchPosition)
+                                    .transition(.scale.combined(with: .opacity))
+                                    .allowsHitTesting(false)
+                            }
+                        }
+                    }
+                    .frame(height: geometry.size.height * 0.74)
+
+                    Text(isTouchingHair ? "對，就直接搓它。" : "不用找工具，手指放上去。")
                         .font(.system(size: 17, weight: .bold, design: .rounded))
-                        .foregroundStyle(.black.opacity(0.68))
+                        .foregroundStyle(.black.opacity(0.66))
                         .padding(.bottom, max(16, geometry.safeAreaInsets.bottom))
-                }
-
-                if isOverHair {
-                    WaterStream()
-                        .frame(width: 92, height: 150)
-                        .position(x: showerPosition.x, y: showerPosition.y + 92)
-                        .allowsHitTesting(false)
-                }
-
-                ShowerHandle(isActive: isOverHair)
-                    .frame(width: 92, height: 110)
-                    .position(showerPosition)
-                    .gesture(
-                        DragGesture(minimumDistance: 0, coordinateSpace: .named("washSpace"))
-                            .onChanged { value in
-                                handleDrag(value.location, in: geometry.size)
-                            }
-                            .onEnded { _ in
-                                previousDragPosition = nil
-                            }
-                    )
-                    .accessibilityLabel("可拖曳的蓮蓬頭")
-            }
-            .coordinateSpace(name: "washSpace")
-            .onAppear {
-                if showerPosition == .zero {
-                    showerPosition = CGPoint(x: geometry.size.width * 0.80, y: geometry.size.height * 0.72)
                 }
             }
         }
@@ -86,6 +85,16 @@ struct WashInteractionView: View {
                 .presentationDetents([.height(330)])
                 .interactiveDismissDisabled()
         }
+    }
+
+    private var instruction: String {
+        if wetProgress > 0.82 {
+            return "差一點，再搓兩下"
+        }
+        if wetProgress > 0.22 {
+            return "有濕，繼續玩頭髮"
+        }
+        return "直接把頭髮搓濕"
     }
 
     private var confirmationSheet: some View {
@@ -120,30 +129,37 @@ struct WashInteractionView: View {
         .padding(24)
     }
 
-    private func hairHitArea(in size: CGSize) -> CGRect {
-        CGRect(x: size.width * 0.10, y: size.height * 0.10, width: size.width * 0.80, height: size.height * 0.50)
-    }
+    private func handleHairDrag(_ location: CGPoint, in size: CGSize) {
+        let isInsideHair = location.y <= size.height * 0.60
+            && location.x >= 0
+            && location.x <= size.width
 
-    private func handleDrag(_ location: CGPoint, in size: CGSize) {
-        let clamped = CGPoint(
-            x: min(max(46, location.x), size.width - 46),
-            y: min(max(64, location.y), size.height - 64)
-        )
+        touchPosition = location
+        isTouchingHair = isInsideHair
 
-        if hairHitArea(in: size).contains(clamped), !reachedGoal {
-            let distance: CGFloat
-            if let previousDragPosition {
-                distance = hypot(clamped.x - previousDragPosition.x, clamped.y - previousDragPosition.y)
-            } else {
-                distance = 0
-            }
-            wetProgress = min(1, wetProgress + max(0.012, distance / 780))
+        guard isInsideHair, !reachedGoal else {
+            previousDragPosition = location
+            return
         }
 
-        showerPosition = clamped
-        previousDragPosition = clamped
+        let distance: CGFloat
+        if let previousDragPosition {
+            distance = hypot(
+                location.x - previousDragPosition.x,
+                location.y - previousDragPosition.y
+            )
+        } else {
+            distance = 0
+        }
 
-        if wetProgress >= 1, !reachedGoal {
+        hairOffset = CGSize(
+            width: (location.x - size.width / 2) * 0.085,
+            height: (location.y - size.height * 0.24) * 0.045
+        )
+        wetProgress = min(1, wetProgress + max(0.010, distance / 620))
+        previousDragPosition = location
+
+        if wetProgress >= 1 {
             reachedGoal = true
             if trustUser {
                 onWashed(true)
@@ -153,43 +169,35 @@ struct WashInteractionView: View {
             }
         }
     }
-}
 
-private struct ShowerHandle: View {
-    let isActive: Bool
-
-    var body: some View {
-        VStack(spacing: -4) {
-            Capsule()
-                .fill(Color(red: 0.10, green: 0.55, blue: 0.88))
-                .frame(width: 74, height: 43)
-                .overlay {
-                    HStack(spacing: 7) {
-                        ForEach(0..<4, id: \.self) { _ in
-                            Circle().fill(.white).frame(width: 6, height: 6)
-                        }
-                    }
-                }
-            Capsule()
-                .fill(Color(red: 0.08, green: 0.38, blue: 0.65))
-                .frame(width: 25, height: 70)
+    private func endHairDrag() {
+        previousDragPosition = nil
+        isTouchingHair = false
+        withAnimation(.spring(response: 0.28, dampingFraction: 0.58)) {
+            hairOffset = .zero
         }
-        .rotationEffect(.degrees(-25))
-        .scaleEffect(isActive ? 1.08 : 1)
-        .shadow(color: .black.opacity(0.22), radius: 8, y: 5)
-        .animation(.easeOut(duration: 0.15), value: isActive)
     }
 }
 
-private struct WaterStream: View {
+private struct FingerWaterEffect: View {
     var body: some View {
-        HStack(spacing: 9) {
-            ForEach(0..<5, id: \.self) { index in
-                Capsule()
-                    .fill(Color(red: 0.12, green: 0.62, blue: 0.94).opacity(0.72))
-                    .frame(width: 7, height: index.isMultiple(of: 2) ? 138 : 112)
-            }
+        ZStack {
+            Circle()
+                .stroke(
+                    Color(red: 0.10, green: 0.60, blue: 0.92).opacity(0.55),
+                    lineWidth: 5
+                )
+                .frame(width: 66, height: 66)
+
+            Image(systemName: "drop.fill")
+                .offset(x: -30, y: 28)
+            Image(systemName: "drop.fill")
+                .offset(x: 31, y: 16)
+            Image(systemName: "drop.fill")
+                .offset(x: 7, y: -34)
         }
-        .rotationEffect(.degrees(-7))
+        .font(.system(size: 18, weight: .bold))
+        .foregroundStyle(Color(red: 0.10, green: 0.60, blue: 0.92))
+        .shadow(color: .white.opacity(0.7), radius: 2)
     }
 }

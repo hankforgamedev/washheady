@@ -13,9 +13,9 @@
 - UI：SwiftUI，iOS 17+
 - 角色：純 SwiftUI Shapes；之後可把 CharacterHeadView 換成 PNG / SVG 狀態圖
 - 狀態：直接放在 ContentView 的少量 @AppStorage
-- 畫面：主畫面 + 一個 full-screen 洗頭畫面 + 確認 sheet
-- 澆水：拖曳位置進入 hair hit area 時，依移動距離累積 wetProgress
-- 水效果：幾條半透明 Capsule，沒有 particle / fluid physics
+- 畫面：主畫面中央彈出提問視窗 + 一個 full-screen 洗頭畫面 + 確認 sheet
+- 洗頭：手指直接在頭髮感應區搓揉，依移動距離累積 wetProgress
+- 頭髮回饋：頭髮跟著手指小幅偏移，放手後彈回；觸點顯示水滴圈
 - CI：GitHub Actions macOS runner，只做無簽章 Simulator build
 
 ## Persistence keys
@@ -25,7 +25,7 @@
 | messinessLevel | Int | 0...3 頭髮澎度 |
 | lastStatus | String | WashStatus.rawValue |
 | lastStatusDate | Double | Unix timestamp |
-| trustUser | Bool | 淋完後是否跳過確認 |
+| trustUser | Bool | 搓完後是否跳過確認 |
 
 lastStatusDate 目前只記錄，不做跨日排程。跨日絕不自動把頭髮恢復 clean。
 
@@ -33,7 +33,7 @@ lastStatusDate 目前只記錄，不做跨日排程。跨日絕不自動把頭�
 
 - WashHead/ContentView.swift：持久狀態與主流程
 - WashHead/CharacterHeadView.swift：巨大頭、澎髮與濕髮視覺
-- WashHead/WashInteractionView.swift：拖曳、hit area、完成確認
+- WashHead/WashInteractionView.swift：直接搓揉頭髮、感應區、完成確認
 - WashHead.xcodeproj/project.pbxproj：單一 iOS app target
 - PRODUCT_BRIEF.md：完整 build brief
 - DEV_STATUS.md：哪些已做、哪些尚未由 Mac 驗證
@@ -46,8 +46,8 @@ lastStatusDate 目前只記錄，不做跨日排程。跨日絕不自動把頭�
 
 都在 WashInteractionView.swift：
 
-- hairHitArea 的 x/y/width/height 比例
-- distance / 780 的濕度累積速度
-- 蓮蓬頭初始位置 0.80 / 0.72
+- 頭髮感應區的 `location.y <= size.height * 0.60`
+- `distance / 620` 的濕度累積速度
+- `hairOffset` 的水平／垂直跟手倍率
 
 不要為調手感重構狀態架構。

@@ -1,6 +1,6 @@
 # 開發狀態
 
-最後更新：2026-09-02（Asia/Taipei）
+最後更新：2026-09-03（Asia/Taipei）
 
 ## 當前結論
 
@@ -14,9 +14,9 @@ P0 Demo 已在原始碼層完成，GitHub Actions 的 macOS runner 已成功完�
 |---|---|---|
 | SwiftUI App / Xcode project | CI 編譯通過 | iOS 17+；run #1 success |
 | 巨大角色頭 | 已實作，待視覺 QA | 純 SwiftUI Shapes，無素材依賴 |
-| 要洗／不洗 | 已實作，待互動 QA | 主畫面兩顆大按鈕 |
+| 要洗／不洗 | 已實作，待互動 QA | 中央彈出視窗；可按 X 或點背景關閉 |
 | 不洗後頭髮膨脹 | 已實作，待互動 QA | messinessLevel clamp 在 0...3 |
-| 洗頭拖曳互動 | 已實作，待手感 QA | 在頭髮 hit area 內拖曳累積濕度 |
+| 洗頭拖曳互動 | 已實作，待手感 QA | 直接搓揉頭髮；不使用蓮蓬頭工具 |
 | 濕髮視覺 | 已實作，待視覺 QA | 頭髮縮小、變深、水滴浮現 |
 | 洗完確認 | 已實作，待互動 QA | 自製 sheet，可選「洗完了／其實還沒」 |
 | 信任使用者 | 已實作，待互動 QA | 勾選後下次淋完直接完成 |
@@ -36,7 +36,7 @@ P0 Demo 已在原始碼層完成，GitHub Actions 的 macOS runner 已成功完�
 ## 下一位開發者從這裡接
 
 1. 在 Mac 用 iPhone Simulator 執行三個 DoD 測試。
-2. 只調整 hit area、拖曳累積速度、頭部尺寸等手感問題。
+2. 只調整頭髮感應區、搓揉累積速度、頭部尺寸等手感問題。
 3. 不要在三個測試通過前開始 notification、角色編輯器或歷史 UI。
 
 ## 實機簽署

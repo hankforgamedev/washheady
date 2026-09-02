@@ -14,42 +14,69 @@ struct ContentView: View {
     @AppStorage("trustUser") private var trustUser = false
 
     @State private var isWashing = false
-    @State private var characterLine = "欸 Hank，我們今天有要洗頭嗎？"
+    @State private var showDailyQuestion = true
+    @State private var characterLine: String?
 
     var body: some View {
-        GeometryReader { geometry in
-            VStack(spacing: 14) {
-                Text(characterLine)
-                    .font(.system(size: 25, weight: .black, design: .rounded))
-                    .multilineTextAlignment(.center)
+        ZStack {
+            GeometryReader { geometry in
+                VStack(spacing: 8) {
+                    Text(characterLine ?? "洗頭了沒？")
+                        .font(.system(size: 23, weight: .black, design: .rounded))
+                        .multilineTextAlignment(.center)
+                        .frame(maxWidth: .infinity)
+                        .frame(minHeight: 58)
+                        .padding(.horizontal, 8)
+                        .accessibilityAddTraits(.isHeader)
+
+                    CharacterHeadView(
+                        messinessLevel: messinessLevel,
+                        isUnknown: lastStatusRaw == WashStatus.unknown.rawValue
+                    )
+                    .frame(height: max(410, geometry.size.height * 0.70))
                     .frame(maxWidth: .infinity)
-                    .frame(minHeight: 62)
-                    .padding(.horizontal, 8)
-                    .accessibilityAddTraits(.isHeader)
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        withAnimation(.spring(response: 0.32, dampingFraction: 0.82)) {
+                            showDailyQuestion = true
+                        }
+                    }
+                    .accessibilityLabel("Hank 的大頭，頭髮澎度 \(messinessLevel)。點一下回答今天要不要洗頭。")
 
-                CharacterHeadView(
-                    messinessLevel: messinessLevel,
-                    isUnknown: lastStatusRaw == WashStatus.unknown.rawValue
-                )
-                .frame(height: max(360, geometry.size.height * 0.62))
-                .frame(maxWidth: .infinity)
-                .accessibilityLabel("Hank 的大頭，頭髮澎度 \(messinessLevel)")
+                    Text("點一下頭髮，再決定一次")
+                        .font(.system(size: 15, weight: .bold, design: .rounded))
+                        .foregroundStyle(.black.opacity(0.55))
+                        .padding(.bottom, max(14, geometry.safeAreaInsets.bottom))
+                }
+                .padding(.horizontal, 18)
+                .padding(.top, 12)
+                .frame(width: geometry.size.width, height: geometry.size.height)
+                .blur(radius: showDailyQuestion ? 1.6 : 0)
+            }
 
-                HStack(spacing: 12) {
-                    ChoiceButton(title: "要啊", foreground: .white, background: .black) {
+            if showDailyQuestion {
+                WashQuestionDialog(
+                    onClose: {
+                        withAnimation(.easeOut(duration: 0.18)) {
+                            showDailyQuestion = false
+                        }
+                    },
+                    onSkip: {
+                        skipWash()
+                        withAnimation(.easeOut(duration: 0.18)) {
+                            showDailyQuestion = false
+                        }
+                    },
+                    onWash: {
+                        withAnimation(.easeOut(duration: 0.18)) {
+                            showDailyQuestion = false
+                        }
                         isWashing = true
                     }
-
-                    ChoiceButton(title: "今天不要", foreground: .black, background: .white) {
-                        skipWash()
-                    }
-                }
-                .padding(.horizontal, 4)
-                .padding(.bottom, max(12, geometry.safeAreaInsets.bottom))
+                )
+                .transition(.scale(scale: 0.92).combined(with: .opacity))
+                .zIndex(2)
             }
-            .padding(.horizontal, 18)
-            .padding(.top, 16)
-            .frame(width: geometry.size.width, height: geometry.size.height)
         }
         .background(Color(red: 0.95, green: 0.91, blue: 0.82).ignoresSafeArea())
         .fullScreenCover(isPresented: $isWashing) {
@@ -79,24 +106,89 @@ struct ContentView: View {
     }
 }
 
-private struct ChoiceButton: View {
-    let title: String
-    let foreground: Color
-    let background: Color
-    let action: () -> Void
+private struct WashQuestionDialog: View {
+    let onClose: () -> Void
+    let onSkip: () -> Void
+    let onWash: () -> Void
 
     var body: some View {
+        ZStack {
+            Color.black.opacity(0.20).ignoresSafeArea()
+                .onTapGesture(perform: onClose)
+
+            VStack(alignment: .leading, spacing: 15) {
+                HStack(alignment: .top) {
+                    Text("今天的重大問題")
+                        .font(.system(size: 17, weight: .black, design: .rounded))
+
+                    Spacer()
+
+                    Button(action: onClose) {
+                        Image(systemName: "xmark")
+                            .font(.system(size: 14, weight: .black))
+                            .frame(width: 30, height: 30)
+                            .background(Color.black.opacity(0.07))
+                            .clipShape(Circle())
+                    }
+                    .buttonStyle(.plain)
+                    .foregroundStyle(.black.opacity(0.62))
+                    .accessibilityLabel("關閉")
+                }
+
+                Text("欸 Hank，我們今天有要洗頭嗎？")
+                    .font(.system(size: 27, weight: .black, design: .rounded))
+                    .fixedSize(horizontal: false, vertical: true)
+
+                Text("不用表現良好，選一個就好。")
+                    .font(.system(size: 16, weight: .medium, design: .rounded))
+                    .foregroundStyle(.black.opacity(0.62))
+
+                HStack(spacing: 11) {
+                    dialogButton(
+                        title: "今天不要",
+                        foreground: .black,
+                        background: .white,
+                        action: onSkip
+                    )
+
+                    dialogButton(
+                        title: "要啊",
+                        foreground: .white,
+                        background: Color(red: 0.12, green: 0.54, blue: 0.86),
+                        action: onWash
+                    )
+                }
+                .padding(.top, 4)
+            }
+            .padding(22)
+            .background(.white)
+            .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+            .overlay {
+                RoundedRectangle(cornerRadius: 22, style: .continuous)
+                    .stroke(.black.opacity(0.10), lineWidth: 1)
+            }
+            .shadow(color: .black.opacity(0.26), radius: 24, y: 12)
+            .padding(.horizontal, 27)
+        }
+    }
+
+    private func dialogButton(
+        title: String,
+        foreground: Color,
+        background: Color,
+        action: @escaping () -> Void
+    ) -> some View {
         Button(action: action) {
             Text(title)
-                .font(.system(size: 19, weight: .bold, design: .rounded))
+                .font(.system(size: 17, weight: .black, design: .rounded))
                 .frame(maxWidth: .infinity)
-                .frame(height: 56)
+                .frame(height: 52)
                 .foregroundStyle(foreground)
                 .background(background)
-                .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+                .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
                 .overlay {
-                    RoundedRectangle(cornerRadius: 18, style: .continuous)
-                        .stroke(.black, lineWidth: 3)
+                    RoundedRectangle(cornerRadius: 14, style: .continuous)
+                        .stroke(.black.opacity(0.18), lineWidth: 1.5)
                 }
         }
         .buttonStyle(.plain)
