@@ -9,8 +9,8 @@ permissions:
 
 jobs:
   build:
-    runs-on: macos-15
-    timeout-minutes: 15
+    runs-on: macos-15-intel
+    timeout-minutes: 12
 
     steps:
       - name: Checkout
@@ -65,7 +65,14 @@ jobs:
           trap cleanup EXIT
 
           xcrun simctl boot "$DEVICE_UDID"
-          xcrun simctl bootstatus "$DEVICE_UDID" -b
+          DEVICE_UDID="$DEVICE_UDID" python3 -c '
+          import os, subprocess
+          subprocess.run(
+              ["xcrun", "simctl", "bootstatus", os.environ["DEVICE_UDID"], "-b"],
+              check=True,
+              timeout=240
+          )
+          '
           xcrun simctl status_bar "$DEVICE_UDID" override --time 9:41 --batteryState charged --batteryLevel 100 || true
           xcrun simctl install "$DEVICE_UDID" "$RUNNER_TEMP/WashHeadDerivedData/Build/Products/Debug-iphonesimulator/WashHead.app"
           xcrun simctl launch "$DEVICE_UDID" com.hankforgamedev.washheady
