@@ -4,9 +4,11 @@
 
 ## 當前結論
 
-P0 Demo 已在原始碼層完成，GitHub Actions 的 macOS runner 已成功完成第一次 iOS Simulator build。本次本機環境只有 Windows，因此尚未在實際 Simulator 或 iPhone 操作。
+P0 Demo 已在原始碼層完成。主畫面現採中央彈出式提問；選擇洗頭後，使用者直接搓揉頭髮，不再拖曳蓮蓬頭。GitHub Actions 的 macOS runner 已成功完成 iOS Simulator build 與新版 SwiftUI 畫面渲染。本次本機環境只有 Windows，因此尚未在實際 Simulator 或 iPhone 操作。
 
-已通過的 CI：[iOS build run #1](https://github.com/hankforgamedev/washheady/actions/runs/33645536319)
+最新通過的 CI：[iOS build run #5](https://github.com/hankforgamedev/washheady/actions/runs/33654890005)
+
+目前雲端渲染畫面：[docs/screenshots/main.png](docs/screenshots/main.png)。這是雲端 Mac 以 Apple SwiftUI `ImageRenderer` 產生，角色共用 App 的 `CharacterHeadView`；它是可靠的靜態視覺參考，但不是已啟動 iOS Simulator 的實機截圖。
 
 ## 功能狀態
 

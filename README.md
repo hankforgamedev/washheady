@@ -4,6 +4,8 @@
 
 一顆會依你洗不洗頭而改變的巨大頭。這是一天內完成、讓家人能直接玩的原生 iOS SwiftUI Demo；不是健康追蹤器，也不會對沒洗頭說教。
 
+![目前的雲端 SwiftUI 畫面](docs/screenshots/main.png)
+
 ## 已實作
 
 - 巨大 2D SwiftUI 角色頭
