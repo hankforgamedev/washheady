@@ -181,7 +181,7 @@ struct ContentView: View {
         case .some(.washed): return "今天有洗。"
         case .some(.notWashed): return "今天沒洗，也很好。"
         case .some(.unknown): return "我不確定。"
-        case .some(.none), .none: return "洗頭了沒？"
+        case .some(.none), nil: return "洗頭了沒？"
         }
     }
 

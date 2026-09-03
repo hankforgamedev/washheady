@@ -62,7 +62,8 @@ enum WashHistory {
         let end = calendar.date(bySettingHour: 23, minute: 59, second: 59, of: date) ?? date
         let ordered = records(from: json)
             .compactMap { key, status -> (Date, WashStatus)? in
-                guard let recordDate = date(from: key, calendar: calendar), recordDate <= end else {
+                guard let recordDate = WashHistory.date(from: key, calendar: calendar),
+                      recordDate <= end else {
                     return nil
                 }
                 return (recordDate, status)

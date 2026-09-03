@@ -153,7 +153,7 @@ struct HistoryView: View {
         case .some(.washed): return "drop.fill"
         case .some(.notWashed): return "cloud.fill"
         case .some(.unknown): return "questionmark"
-        case .some(.none), .none: return "minus"
+        case .some(.none), nil: return "minus"
         }
     }
 
@@ -162,7 +162,7 @@ struct HistoryView: View {
         case .some(.washed): return .blue
         case .some(.notWashed): return .brown
         case .some(.unknown): return .gray
-        case .some(.none), .none: return .black.opacity(0.18)
+        case .some(.none), nil: return .black.opacity(0.18)
         }
     }
 
