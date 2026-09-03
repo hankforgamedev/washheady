@@ -84,6 +84,7 @@ struct ContentView: View {
                 isPresented: $isWashing,
                 messinessLevel: messinessLevel,
                 trustUser: $trustUser,
+                onAbandoned: skipWash,
                 onWashed: finishWash
             )
         }

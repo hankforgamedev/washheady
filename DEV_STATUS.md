@@ -4,7 +4,7 @@
 
 ## 當前結論
 
-P0 Demo 已在原始碼層完成。主畫面現採中央彈出式提問；選擇洗頭後，使用者直接搓揉頭髮，不再拖曳蓮蓬頭。GitHub Actions 的 macOS runner 已成功完成 iOS Simulator build 與新版 SwiftUI 畫面渲染。本次本機環境只有 Windows，因此尚未在實際 Simulator 或 iPhone 操作。
+P0 Demo 已在原始碼層完成。主畫面採中央彈出式提問；選擇洗頭後，使用者拖曳外觀像澆花器的蓮蓬頭把頭髮澆濕。GitHub Actions 的 macOS runner 已成功完成 iOS Simulator build 與新版 SwiftUI 畫面渲染。本次本機環境只有 Windows，因此尚未在實際 Simulator 或 iPhone 操作。
 
 最新通過的 CI：[iOS build run #5](https://github.com/hankforgamedev/washheady/actions/runs/33654890005)
 
@@ -18,7 +18,7 @@ P0 Demo 已在原始碼層完成。主畫面現採中央彈出式提問；選擇
 | 巨大角色頭 | 已實作，待視覺 QA | 純 SwiftUI Shapes，無素材依賴 |
 | 要洗／不洗 | 已實作，待互動 QA | 中央彈出視窗；可按 X 或點背景關閉 |
 | 不洗後頭髮膨脹 | 已實作，待互動 QA | messinessLevel clamp 在 0...3 |
-| 洗頭拖曳互動 | 已實作，待手感 QA | 直接搓揉頭髮；不使用蓮蓬頭工具 |
+| 洗頭拖曳互動 | 已實作，待手感 QA | 拖曳綠色澆花器造型的蓮蓬頭 |
 | 濕髮視覺 | 已實作，待視覺 QA | 頭髮縮小、變深、水滴浮現 |
 | 洗完確認 | 已實作，待互動 QA | 自製 sheet，可選「洗完了／其實還沒」 |
 | 信任使用者 | 已實作，待互動 QA | 勾選後下次淋完直接完成 |
@@ -38,7 +38,7 @@ P0 Demo 已在原始碼層完成。主畫面現採中央彈出式提問；選擇
 ## 下一位開發者從這裡接
 
 1. 在 Mac 用 iPhone Simulator 執行三個 DoD 測試。
-2. 只調整頭髮感應區、搓揉累積速度、頭部尺寸等手感問題。
+2. 只調整頭髮感應區、澆水累積速度、頭部尺寸等手感問題。
 3. 不要在三個測試通過前開始 notification、角色編輯器或歷史 UI。
 
 ## 實機簽署
