@@ -1,9 +1,20 @@
 import SwiftUI
 
+struct CharacterAppearance: Equatable {
+    var skinTone = 0
+    var hairTone = 0
+    var hairStyle = 0
+    var faceShape = 0
+    var eyeScale = 1.0
+    var eyeYOffset = 0.0
+    var mouthStyle = 0
+}
+
 struct CharacterHeadView: View {
     let messinessLevel: Int
     var wetProgress: Double = 0
     var isUnknown = false
+    var appearance = CharacterAppearance()
 
     private var clampedMessiness: CGFloat {
         CGFloat(min(3, max(0, messinessLevel)))
@@ -20,7 +31,7 @@ struct CharacterHeadView: View {
             let hairScale = messyScale - (messyScale - 0.92) * clampedWetness
 
             ZStack {
-                HairCloud(color: hairColor)
+                HairCloud(color: hairColor, style: appearance.hairStyle)
                     .frame(width: side * 0.82, height: side * 0.58)
                     .scaleEffect(hairScale)
                     .offset(y: -side * 0.18)
@@ -38,13 +49,16 @@ struct CharacterHeadView: View {
                     .overlay {
                         Ellipse().stroke(.black, lineWidth: max(4, side * 0.014))
                     }
-                    .frame(width: side * 0.66, height: side * 0.69)
+                    .frame(
+                        width: side * faceWidthMultiplier,
+                        height: side * faceHeightMultiplier
+                    )
                     .offset(y: side * 0.08)
 
                 faceDetails(side: side)
                     .offset(y: side * 0.08)
 
-                HairFringe(color: hairColor)
+                HairFringe(color: hairColor, style: appearance.hairStyle)
                     .frame(width: side * 0.64, height: side * 0.28)
                     .scaleEffect(x: hairScale, y: 1 + clampedMessiness * 0.05)
                     .offset(y: -side * 0.17 + clampedMessiness * side * 0.012)
@@ -68,33 +82,69 @@ struct CharacterHeadView: View {
     }
 
     private var faceColor: Color {
-        Color(red: 0.98, green: 0.73, blue: 0.50)
+        let colors = [
+            Color(red: 0.98, green: 0.73, blue: 0.50),
+            Color(red: 0.82, green: 0.55, blue: 0.36),
+            Color(red: 0.61, green: 0.37, blue: 0.25),
+            Color(red: 0.36, green: 0.22, blue: 0.17)
+        ]
+        return colors[min(max(appearance.skinTone, 0), colors.count - 1)]
     }
 
     private var hairColor: Color {
+        let colors: [(Double, Double, Double)] = [
+            (0.16, 0.10, 0.08),
+            (0.38, 0.20, 0.08),
+            (0.06, 0.05, 0.05),
+            (0.67, 0.48, 0.18),
+            (0.35, 0.12, 0.32)
+        ]
+        let base = colors[min(max(appearance.hairTone, 0), colors.count - 1)]
         let wet = Double(clampedWetness)
         return Color(
-            red: 0.16 - 0.06 * wet,
-            green: 0.10 + 0.02 * wet,
-            blue: 0.08 + 0.08 * wet
+            red: max(0, base.0 - 0.07 * wet),
+            green: max(0, base.1 - 0.05 * wet),
+            blue: max(0, base.2 - 0.03 * wet)
         )
+    }
+
+    private var faceWidthMultiplier: CGFloat {
+        switch appearance.faceShape {
+        case 1: return 0.59
+        case 2: return 0.72
+        default: return 0.66
+        }
+    }
+
+    private var faceHeightMultiplier: CGFloat {
+        switch appearance.faceShape {
+        case 1: return 0.75
+        case 2: return 0.64
+        default: return 0.69
+        }
     }
 
     @ViewBuilder
     private func faceDetails(side: CGFloat) -> some View {
         VStack(spacing: side * 0.07) {
-            HStack(spacing: side * 0.20) {
-                eye(side: side)
-                eye(side: side)
+            VStack(spacing: side * 0.015) {
+                HStack(spacing: side * 0.22) {
+                    Capsule().fill(.black).frame(width: side * 0.11, height: side * 0.018)
+                    Capsule().fill(.black).frame(width: side * 0.11, height: side * 0.018)
+                }
+
+                HStack(spacing: side * 0.20) {
+                    eye(side: side)
+                    eye(side: side)
+                }
             }
+            .offset(y: side * CGFloat(appearance.eyeYOffset))
 
             Capsule()
                 .fill(Color(red: 0.82, green: 0.43, blue: 0.31))
                 .frame(width: side * 0.075, height: side * 0.12)
 
-            Capsule()
-                .fill(.black)
-                .frame(width: side * 0.20, height: side * 0.035)
+            mouth(side: side)
         }
     }
 
@@ -105,25 +155,54 @@ struct CharacterHeadView: View {
                 .fill(.black)
                 .frame(width: side * 0.047)
         }
-        .frame(width: side * 0.105, height: side * 0.075)
+        .frame(
+            width: side * 0.105 * appearance.eyeScale,
+            height: side * 0.075 * appearance.eyeScale
+        )
         .overlay { Capsule().stroke(.black, lineWidth: max(3, side * 0.009)) }
+    }
+
+    @ViewBuilder
+    private func mouth(side: CGFloat) -> some View {
+        switch appearance.mouthStyle {
+        case 1:
+            Ellipse()
+                .fill(.black)
+                .frame(width: side * 0.16, height: side * 0.10)
+        case 2:
+            Text("﹀")
+                .font(.system(size: side * 0.13, weight: .black, design: .rounded))
+                .frame(height: side * 0.06)
+        default:
+            Capsule()
+                .fill(.black)
+                .frame(width: side * 0.20, height: side * 0.035)
+        }
     }
 }
 
 private struct HairCloud: View {
     let color: Color
+    let style: Int
 
     var body: some View {
         GeometryReader { geometry in
             let w = geometry.size.width
             let h = geometry.size.height
             ZStack {
-                Ellipse().fill(color).frame(width: w * 0.70, height: h * 0.90).offset(y: h * 0.04)
-                Circle().fill(color).frame(width: h * 0.76).offset(x: -w * 0.30, y: h * 0.04)
-                Circle().fill(color).frame(width: h * 0.88).offset(x: -w * 0.15, y: -h * 0.18)
-                Circle().fill(color).frame(width: h * 0.95).offset(y: -h * 0.22)
-                Circle().fill(color).frame(width: h * 0.88).offset(x: w * 0.17, y: -h * 0.17)
-                Circle().fill(color).frame(width: h * 0.76).offset(x: w * 0.31, y: h * 0.05)
+                if style == 1 {
+                    Capsule()
+                        .fill(color)
+                        .frame(width: w * 0.92, height: h * 0.72)
+                        .offset(y: -h * 0.06)
+                } else {
+                    Ellipse().fill(color).frame(width: w * 0.70, height: h * 0.90).offset(y: h * 0.04)
+                    Circle().fill(color).frame(width: h * 0.76).offset(x: -w * 0.30, y: h * 0.04)
+                    Circle().fill(color).frame(width: h * 0.88).offset(x: -w * 0.15, y: -h * 0.18)
+                    Circle().fill(color).frame(width: h * (style == 2 ? 1.08 : 0.95)).offset(y: -h * 0.22)
+                    Circle().fill(color).frame(width: h * 0.88).offset(x: w * 0.17, y: -h * 0.17)
+                    Circle().fill(color).frame(width: h * 0.76).offset(x: w * 0.31, y: h * 0.05)
+                }
             }
             .frame(width: w, height: h)
             .overlay {
@@ -135,16 +214,18 @@ private struct HairCloud: View {
 
 private struct HairFringe: View {
     let color: Color
+    let style: Int
 
     var body: some View {
         GeometryReader { geometry in
             HStack(spacing: -geometry.size.width * 0.055) {
-                ForEach(0..<7, id: \.self) { index in
+                ForEach(0..<(style == 1 ? 5 : 7), id: \.self) { index in
                     Ellipse()
                         .fill(color)
                         .frame(
                             width: geometry.size.width * 0.19,
-                            height: geometry.size.height * (index.isMultiple(of: 2) ? 0.95 : 0.72)
+                            height: geometry.size.height
+                                * (index.isMultiple(of: 2) ? (style == 2 ? 1.18 : 0.95) : 0.72)
                         )
                         .overlay { Ellipse().stroke(.black, lineWidth: 3) }
                 }

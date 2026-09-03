@@ -3,6 +3,7 @@ import SwiftUI
 struct WashInteractionView: View {
     @Binding var isPresented: Bool
     let messinessLevel: Int
+    let appearance: CharacterAppearance
     @Binding var trustUser: Bool
     let onAbandoned: () -> Void
     let onWashed: (_ trustedAutomatically: Bool) -> Void
@@ -48,7 +49,11 @@ struct WashInteractionView: View {
                     .padding(.horizontal, 18)
                     .padding(.top, max(8, geometry.safeAreaInsets.top))
 
-                    CharacterHeadView(messinessLevel: messinessLevel, wetProgress: Double(wetProgress))
+                    CharacterHeadView(
+                        messinessLevel: messinessLevel,
+                        wetProgress: Double(wetProgress),
+                        appearance: appearance
+                    )
                         .frame(height: geometry.size.height * 0.68)
                         .frame(maxWidth: .infinity)
 
