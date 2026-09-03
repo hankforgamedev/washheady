@@ -9,15 +9,19 @@ permissions:
 
 jobs:
   build:
-    runs-on: macos-15
+    runs-on: macos-26
     timeout-minutes: 15
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.6.app/Contents/Developer
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
-      - name: Show Xcode version
-        run: xcodebuild -version
+      - name: Verify Xcode 26 and iOS 26 SDK
+        run: |
+          xcodebuild -version
+          xcrun --sdk iphonesimulator --show-sdk-version
 
       - name: Build for iOS Simulator
         run: |
@@ -44,7 +48,7 @@ jobs:
           SNAPSHOT_OUTPUT="$PWD/screenshots/main.png" "$RUNNER_TEMP/washhead-snapshot"
 
       - name: Upload SwiftUI screenshot
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: washhead-swiftui-screenshot
           path: screenshots/main.png

@@ -31,7 +31,7 @@
 
 若要裝到實機，在 target 的 Signing & Capabilities 選擇自己的 Apple Development Team；必要時把 bundle identifier 改成自己帳號下唯一的值。
 
-最低部署版本是 iOS 17。
+最低部署版本是 iOS 17；目前用 Xcode 26／iOS 26 SDK 開發與驗收。這兩件事不衝突：iOS 17 是 App 可安裝的最低系統，iOS 26 SDK 是現在拿來編譯與測試的工具版本。
 
 ## 只有 Windows 時
 
@@ -50,7 +50,7 @@ Windows 本機不能：
 
 ## CI
 
-每次 push / pull request 都會在 macos-15 runner 執行：
+每次 push / pull request 都會在 arm64 `macos-26` runner，以 Xcode 26.6／iOS 26 SDK 執行：
 
 ~~~sh
 xcodebuild \

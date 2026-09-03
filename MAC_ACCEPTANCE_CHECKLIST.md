@@ -7,8 +7,8 @@
 ## 0. 開始前
 
 1. 在 Mac clone 或 pull `https://github.com/hankforgamedev/washheady` 的 `main`。
-2. 用 Xcode 開啟 `WashHead.xcodeproj`。
-3. 先選任一 iPhone Simulator，scheme 選 `WashHead`，按 `⌘R`。
+2. 在 M1 Mac 安裝並開啟 Xcode 26；專案最低部署版本仍是 iOS 17，不要把它誤當成舊 SDK。
+3. 用 Xcode 26 開啟 `WashHead.xcodeproj`，先選 iOS 26 的 iPhone Simulator，scheme 選 `WashHead`，按 `⌘R`。
 4. 若測實體 iPhone，再到 Signing & Capabilities 選自己的 Apple Development Team；repo 不保存 Team ID 或憑證。
 
 ## 1. 每日 popup

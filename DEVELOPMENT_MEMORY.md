@@ -10,7 +10,7 @@
 
 ## 已採用的最小方案
 
-- UI：SwiftUI，iOS 17+
+- UI：SwiftUI，最低支援 iOS 17；開發、CI 與驗收使用 Xcode 26／iOS 26 SDK
 - 角色：純 SwiftUI Shapes；之後可把 CharacterHeadView 換成 PNG / SVG 狀態圖
 - 狀態：每日紀錄編碼為 UserDefaults JSON；畫面澎度永遠由歷史回算
 - 畫面：主畫面中央彈出提問視窗 + 一個 full-screen 洗頭畫面 + 確認 sheet
@@ -20,7 +20,7 @@
 - 通知：本機排程，提供「要／不要」action；「要」開啟澆水，「不要」直接寫入紀錄
 - 捏頭：純 SwiftUI 分層角色的第一版參數編輯器
 - App icon：預先打包四組 icon，透過 UIApplication alternate icon API 切換
-- CI：GitHub Actions macOS runner，只做無簽章 Simulator build
+- CI：GitHub Actions arm64 macOS 26 runner，固定 Xcode 26.6，只做無簽章 Simulator build
 
 ## Persistence keys
 

@@ -4,7 +4,7 @@
 
 ## 當前結論
 
-明天 Mac 驗收範圍已全部進入原始碼：每日提問、澆水蓮蓬頭、歷史月曆、捏頭、通知 action、睡前 unknown 與四種狀態 App icon。GitHub Actions 的 macOS runner 已完成整個 iOS target 編譯；Windows 端仍無法取代 Simulator／iPhone 的觸控、通知與桌面 icon 驗收。
+明天 Mac 驗收範圍已全部進入原始碼：每日提問、澆水蓮蓬頭、歷史月曆、捏頭、通知 action、睡前 unknown 與四種狀態 App icon。GitHub Actions 已切到 arm64 macOS 26 runner，固定使用 Xcode 26.6／iOS 26 SDK 編譯；Windows 端仍無法取代 Simulator／iPhone 的觸控、通知與桌面 icon 驗收。
 
 最新通過的 CI：[core feature build](https://github.com/hankforgamedev/washheady/actions/runs/33724858131)
 
@@ -14,7 +14,7 @@
 
 | 項目 | 狀態 | 備註 |
 |---|---|---|
-| SwiftUI App / Xcode project | CI 編譯通過 | iOS 17+；Xcode 16.4 / iOS 18.5 SDK success |
+| SwiftUI App / Xcode project | 已切換新 CI，待本次綠燈 | 最低 iOS 17；Xcode 26.6 / iOS 26 SDK |
 | 巨大角色頭 | 已實作，待視覺 QA | 純 SwiftUI Shapes，可即時套用捏頭設定 |
 | 要洗／不洗 | 已實作，待互動 QA | 中央彈出視窗；可按 X 或點背景關閉 |
 | 不洗後頭髮膨脹 | 已實作，待互動 QA | messinessLevel clamp 在 0...3 |
@@ -41,7 +41,7 @@
 
 ## 下一位開發者從這裡接
 
-1. 在 Mac 拉取 main，用 iPhone Simulator 依驗收清單逐項操作。
+1. 在 M1 Mac 拉取 main，用 Xcode 26 與 iOS 26 iPhone Simulator 依驗收清單逐項操作。
 2. 通知先用「兩分鐘後」的時間測，不要真的等到晚上。
 3. alternate App icon 優先在實體 iPhone 驗證；Simulator 結果只當參考。
 4. 每抓到一個問題就記錄裝置、iOS 版本、步驟與畫面，不要同時憑感覺改五處。
