@@ -13,10 +13,15 @@
 - 不洗時頭髮逐次膨脹，最高三段
 - 拖曳外觀像澆花器的蓮蓬頭，把頭髮逐步澆濕
 - 洗完確認與「其實還沒」分支
+- 洗頭途中離開的二次確認；確定離開會記成沒洗
 - 「不要再提醒我，我很誠實」信任選項
-- @AppStorage 本機持久化
+- 可更正每日結果的月曆
+- 膚色、髮色、髮型、臉型與五官調整
+- 每週七天洗澡時間、睡前 unknown 與可直接回答的本機通知
+- 乾淨、澎、最大與 unknown 四種 App icon
+- @AppStorage / UserDefaults 本機持久化
 
-完整規格見 [PRODUCT_BRIEF.md](PRODUCT_BRIEF.md)，目前驗證狀態見 [DEV_STATUS.md](DEV_STATUS.md)，延續開發前先讀 [DEVELOPMENT_MEMORY.md](DEVELOPMENT_MEMORY.md)。
+一天版原始規格見 [PRODUCT_BRIEF.md](PRODUCT_BRIEF.md)，長期方向見 [LONG_TERM_PRODUCT_SPEC.md](LONG_TERM_PRODUCT_SPEC.md)，目前驗證狀態見 [DEV_STATUS.md](DEV_STATUS.md)。明天在 Mac 開始前先照 [MAC_ACCEPTANCE_CHECKLIST.md](MAC_ACCEPTANCE_CHECKLIST.md) 驗收。
 
 ## 在 Mac 上執行
 
