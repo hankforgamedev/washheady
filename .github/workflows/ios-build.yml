@@ -40,7 +40,8 @@ jobs:
           mkdir -p screenshots
           xcrun swiftc \
             -parse-as-library \
-            WashHead/CharacterHeadView.swift \
+            WashHead/Features/Character/CharacterAppearance.swift \
+            WashHead/Features/Character/CharacterHeadView.swift \
             Tools/SnapshotRenderer/Renderer.swift \
             -o "$RUNNER_TEMP/washhead-snapshot" \
             -framework SwiftUI \

@@ -58,7 +58,7 @@ WashHeadApp
 2. [x] 通知：拆出排程、action handling 與 delegate。
 3. [x] App icon：拆出狀態策略與 UIKit adapter。
 4. [x] 歷史：獨立 feature folder 與 module contract。
-5. [ ] 角色／捏頭：獨立 appearance model、renderer、editor contract。
+5. [x] 角色／捏頭：獨立 appearance model、renderer、editor contract。
 6. [ ] 設定：只組合 settings bindings 與注入服務。
 7. [ ] 洗頭核心：獨立互動與每日提問邊界。
 8. [ ] 共用 domain／app composition：只保留跨模組資料規則與接線。
