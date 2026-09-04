@@ -61,6 +61,6 @@ WashHeadApp
 5. [x] 角色／捏頭：獨立 appearance model、renderer、editor contract。
 6. [x] 設定：只組合 settings bindings 與注入服務。
 7. [x] 洗頭核心：獨立互動與每日提問邊界。
-8. [ ] 共用 domain／app composition：只保留跨模組資料規則與接線。
+8. [x] 共用 domain／app composition：只保留跨模組資料規則與接線。
 9. [ ] StoreKit：先提供可關閉的 storefront／entitlement 邊界；沒有正式 product id 前不顯示付費入口。
 10. [ ] Xcode 26 全量編譯與狀態文件更新。

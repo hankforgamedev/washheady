@@ -1,11 +1,3 @@
-import SwiftUI
-
-// MARK: - Feature inputs
-
-// MARK: - Replaceable feature modules
-
-// MARK: - Composition root
-
 struct AppModules {
     let wash: WashFeatureModule
     let history: HistoryFeatureModule?

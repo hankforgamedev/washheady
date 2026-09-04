@@ -11,7 +11,7 @@
 		A10000000000000000000002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000002 /* ContentView.swift */; };
 		A10000000000000000000003 /* CharacterHeadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000003 /* CharacterHeadView.swift */; };
 		A10000000000000000000004 /* WashInteractionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000004 /* WashInteractionView.swift */; };
-		A10000000000000000000005 /* WashData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000006 /* WashData.swift */; };
+		A10000000000000000000005 /* WashHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000006 /* WashHistory.swift */; };
 		A10000000000000000000006 /* AppIconManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000007 /* AppIconManager.swift */; };
 		A10000000000000000000007 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000008 /* HistoryView.swift */; };
 		A10000000000000000000008 /* CharacterEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000009 /* CharacterEditorView.swift */; };
@@ -30,21 +30,23 @@
 		A10000000000000000000021 /* SettingsFeatureModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000022 /* SettingsFeatureModule.swift */; };
 		A10000000000000000000022 /* WashFeatureModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000023 /* WashFeatureModule.swift */; };
 		A10000000000000000000023 /* WashQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000024 /* WashQuestionView.swift */; };
+		A10000000000000000000024 /* WashStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000025 /* WashStatus.swift */; };
+		A10000000000000000000025 /* ShowerSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000026 /* ShowerSchedule.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A20000000000000000000001 /* WashHeadApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WashHeadApp.swift; sourceTree = "<group>"; };
-		A20000000000000000000002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		A20000000000000000000001 /* WashHeadApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App/WashHeadApp.swift; sourceTree = "<group>"; };
+		A20000000000000000000002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App/ContentView.swift; sourceTree = "<group>"; };
 		A20000000000000000000003 /* CharacterHeadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Character/CharacterHeadView.swift; sourceTree = "<group>"; };
 		A20000000000000000000004 /* WashInteractionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Wash/WashInteractionView.swift; sourceTree = "<group>"; };
 		A20000000000000000000005 /* WashHead.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WashHead.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		A20000000000000000000006 /* WashData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WashData.swift; sourceTree = "<group>"; };
+		A20000000000000000000006 /* WashHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core/WashHistory.swift; sourceTree = "<group>"; };
 		A20000000000000000000007 /* AppIconManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Infrastructure/AppIcon/AppIconManager.swift; sourceTree = "<group>"; };
 		A20000000000000000000008 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/History/HistoryView.swift; sourceTree = "<group>"; };
 		A20000000000000000000009 /* CharacterEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Character/CharacterEditorView.swift; sourceTree = "<group>"; };
 		A20000000000000000000010 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Settings/SettingsView.swift; sourceTree = "<group>"; };
 		A20000000000000000000011 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		A20000000000000000000012 /* AppModules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModules.swift; sourceTree = "<group>"; };
+		A20000000000000000000012 /* AppModules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App/AppModules.swift; sourceTree = "<group>"; };
 		A20000000000000000000013 /* NotificationIdentifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Infrastructure/Notifications/NotificationIdentifiers.swift; sourceTree = "<group>"; };
 		A20000000000000000000014 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Infrastructure/Notifications/NotificationManager.swift; sourceTree = "<group>"; };
 		A20000000000000000000015 /* NotificationActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Infrastructure/Notifications/NotificationActionHandler.swift; sourceTree = "<group>"; };
@@ -57,6 +59,8 @@
 		A20000000000000000000022 /* SettingsFeatureModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Settings/SettingsFeatureModule.swift; sourceTree = "<group>"; };
 		A20000000000000000000023 /* WashFeatureModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Wash/WashFeatureModule.swift; sourceTree = "<group>"; };
 		A20000000000000000000024 /* WashQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Wash/WashQuestionView.swift; sourceTree = "<group>"; };
+		A20000000000000000000025 /* WashStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core/WashStatus.swift; sourceTree = "<group>"; };
+		A20000000000000000000026 /* ShowerSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core/ShowerSchedule.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,7 +90,7 @@
 				A20000000000000000000002 /* ContentView.swift */,
 				A20000000000000000000003 /* CharacterHeadView.swift */,
 				A20000000000000000000004 /* WashInteractionView.swift */,
-				A20000000000000000000006 /* WashData.swift */,
+				A20000000000000000000006 /* WashHistory.swift */,
 				A20000000000000000000007 /* AppIconManager.swift */,
 				A20000000000000000000013 /* NotificationIdentifiers.swift */,
 				A20000000000000000000014 /* NotificationManager.swift */,
@@ -100,6 +104,8 @@
 				A20000000000000000000022 /* SettingsFeatureModule.swift */,
 				A20000000000000000000023 /* WashFeatureModule.swift */,
 				A20000000000000000000024 /* WashQuestionView.swift */,
+				A20000000000000000000025 /* WashStatus.swift */,
+				A20000000000000000000026 /* ShowerSchedule.swift */,
 				A20000000000000000000008 /* HistoryView.swift */,
 				A20000000000000000000009 /* CharacterEditorView.swift */,
 				A20000000000000000000010 /* SettingsView.swift */,
@@ -202,11 +208,13 @@
 				A10000000000000000000002 /* ContentView.swift in Sources */,
 				A10000000000000000000003 /* CharacterHeadView.swift in Sources */,
 				A10000000000000000000004 /* WashInteractionView.swift in Sources */,
-				A10000000000000000000005 /* WashData.swift in Sources */,
+				A10000000000000000000005 /* WashHistory.swift in Sources */,
 				A10000000000000000000006 /* AppIconManager.swift in Sources */,
 				A10000000000000000000007 /* HistoryView.swift in Sources */,
 				A10000000000000000000008 /* CharacterEditorView.swift in Sources */,
 				A10000000000000000000009 /* SettingsView.swift in Sources */,
+				A10000000000000000000024 /* WashStatus.swift in Sources */,
+				A10000000000000000000025 /* ShowerSchedule.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
