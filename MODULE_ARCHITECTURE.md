@@ -9,7 +9,7 @@
 - `WashStatus` 與 `WashHistory`：每日資料規則。
 - `CharacterAppearance`：所有畫面共用的頭部外觀資料。
 - `ContentView`：只負責組合模組與切換流程。
-- 每日提問與 `WashInteractionFeatureModule`：目前不可移除的產品核心。
+- 每日提問與 `WashFeatureModule`：目前不可移除的產品核心。
 
 核心可以改 UI 與手感，但不得直接知道月曆、通知、App icon 的內部實作。
 
@@ -22,7 +22,7 @@
 | `SettingsFeatureModule` | 設定 bindings + service modules | 可以 |
 | `ReminderServiceModule` | 排程快照、權限、取消日期 | 可以換成 fake／新版排程器 |
 | `AppIconServiceModule` | `messinessLevel` + `isUnknown` | 可以換成 no-op／其他 icon 策略 |
-| `WashInteractionFeatureModule` | 洗頭輸入 + 完成／放棄 callbacks | 可以換實作，但 App 必須保留一個版本 |
+| `WashFeatureModule` | 每日提問 callbacks + 洗頭輸入 + 完成／放棄 callbacks | 可以換實作，但 App 必須保留一個版本 |
 | `StorefrontFeatureModule` | StoreKit 商品快照 + 購買／還原 commands | 規劃中；不得阻塞免費核心 |
 
 所有組裝集中在 `AppModules.live`。可選 UI 模組使用 optional；拿掉模組時，主畫面的入口也一起消失，不需要修改核心資料規則。
@@ -60,7 +60,7 @@ WashHeadApp
 4. [x] 歷史：獨立 feature folder 與 module contract。
 5. [x] 角色／捏頭：獨立 appearance model、renderer、editor contract。
 6. [x] 設定：只組合 settings bindings 與注入服務。
-7. [ ] 洗頭核心：獨立互動與每日提問邊界。
+7. [x] 洗頭核心：獨立互動與每日提問邊界。
 8. [ ] 共用 domain／app composition：只保留跨模組資料規則與接線。
 9. [ ] StoreKit：先提供可關閉的 storefront／entitlement 邊界；沒有正式 product id 前不顯示付費入口。
 10. [ ] Xcode 26 全量編譯與狀態文件更新。

@@ -44,7 +44,7 @@
 - WashHead/ContentView.swift：持久狀態與主流程
 - WashHead/AppModules.swift：所有可替換功能與系統服務的 composition root
 - WashHead/Features/Character：共用 appearance model、巨大頭 renderer、捏頭 editor 與 module contract
-- WashHead/WashInteractionView.swift：拖曳澆水蓮蓬頭、感應區、完成確認
+- WashHead/Features/Wash：每日問題、拖曳澆水蓮蓬頭、完成確認與核心 module contract
 - WashHead/WashData.swift：歷史、澎度回算、生活日與七天排程資料
 - WashHead/Infrastructure/Notifications：通知排程、action handling 與可替換 reminder service
 - WashHead/App/AppDelegate.swift：iOS app delegate，只轉送系統 notification callback
