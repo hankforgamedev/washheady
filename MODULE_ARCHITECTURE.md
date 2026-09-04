@@ -63,4 +63,23 @@ WashHeadApp
 7. [x] 洗頭核心：獨立互動與每日提問邊界。
 8. [x] 共用 domain／app composition：只保留跨模組資料規則與接線。
 9. [x] StoreKit：已提供可關閉的 storefront／verified entitlement 邊界；沒有正式 product id 前不顯示付費入口。
-10. [ ] Xcode 26 全量編譯與狀態文件更新。
+10. [x] Xcode 26 全量編譯與狀態文件更新。
+
+## 完成後目錄
+
+```text
+WashHead/
+├── App/                         # composition root、主流程、AppDelegate
+├── Core/                        # 無 SwiftUI 的狀態、歷史與排程規則
+├── Features/
+│   ├── Wash/                    # 每日提問與澆水核心
+│   ├── History/                 # 月曆與更正
+│   ├── Character/               # appearance、renderer、editor
+│   ├── Settings/                # 設定 UI 與輸入接口
+│   └── Storefront/              # StoreKit 2；無 product ID 時關閉
+└── Infrastructure/
+    ├── Notifications/           # 排程、actions、service adapter
+    └── AppIcon/                 # icon 策略與 UIKit adapter
+```
+
+2026-09-05 的最終組合已由 Xcode 26 CI 完整編譯。這代表模組接線與 target membership 正確，不代表 Simulator／iPhone 互動驗收完成。

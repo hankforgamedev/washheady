@@ -20,6 +20,7 @@
 - 通知：本機排程，提供「要／不要」action；「要」開啟澆水，「不要」直接寫入紀錄
 - 捏頭：純 SwiftUI 分層角色的第一版參數編輯器
 - App icon：預先打包四組 icon，透過 UIApplication alternate icon API 切換
+- StoreKit：可選 Storefront module；verified transaction／current entitlement 是唯一付費權威，無 product ID 時入口關閉
 - CI：GitHub Actions arm64 macOS 26 runner，固定 Xcode 26.6，只做無簽章 Simulator build
 - 模組：所有組裝集中在 `AppModules.live`；功能只透過 input struct、Binding 與 callback 交換資料
 
@@ -38,6 +39,8 @@
 | skinTone 等 | Int / Double | 角色外觀參數 |
 
 `lastStatus` 與 `lastStatusDate` 保留給舊版資料遷移與通知 action。權威資料是 `washHistoryJSON`。若睡覺時間在凌晨 06:00 前，凌晨紀錄歸入前一個生活日。
+
+付費 entitlement 不得新增到這張 UserDefaults 表；只能從 StoreKit 2 verified transactions 推導。
 
 ## 關鍵檔案
 
@@ -66,7 +69,7 @@
 
 ## 最可能需要在 Simulator 調的三個數字
 
-都在 WashInteractionView.swift：
+都在 WashHead/Features/Wash/WashInteractionView.swift：
 
 - `hairHitArea` 的 x/y/width/height 比例
 - `distance / 780` 的濕度累積速度

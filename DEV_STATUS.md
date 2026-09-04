@@ -1,12 +1,12 @@
 # 開發狀態
 
-最後更新：2026-09-03（Asia/Taipei）
+最後更新：2026-09-05（Asia/Taipei）
 
 ## 當前結論
 
-Mac 驗收範圍已全部進入原始碼：每日提問、澆水蓮蓬頭、歷史月曆、捏頭、通知 action、睡前 unknown 與四種狀態 App icon。第一階段模組化也已完成：各功能透過 `AppModules` 組裝，月曆、捏頭、設定可個別替換，通知與 App icon 由 service module 注入。Windows 端仍無法取代 Simulator／iPhone 的觸控、通知與桌面 icon 驗收。
+Mac 驗收範圍已全部進入原始碼：每日提問、澆水蓮蓬頭、歷史月曆、捏頭、通知 action、睡前 unknown 與四種狀態 App icon。模組化搬遷已全部完成：App、Core、Wash、History、Character、Settings、Notifications、AppIcon 與 Storefront 都有獨立目錄和接口。Storefront 已實作 StoreKit 2 的商品載入、購買、還原與 verified entitlement，但沒有正式 product ID，因此預設關閉且不影響免費核心。Windows 端仍無法取代 Simulator／iPhone 的觸控、通知、購買與桌面 icon 驗收。
 
-最新通過的 CI：[plug-in module boundaries build](https://github.com/hankforgamedev/washheady/actions/runs/33886040143)。雲端以 arm64 macOS 26、Xcode 26.6 與 iOS 26 SDK 完整編譯 target，模組化版本顯示 `BUILD SUCCEEDED`。
+最新通過的 CI：[all modules build](https://github.com/hankforgamedev/washheady/actions/runs/33904185295)。雲端以 arm64 macOS 26、Xcode 26.6 與 iOS 26 SDK 完整編譯 target，包含 StoreKit 2 的最終模組組合顯示 `BUILD SUCCEEDED`。
 
 目前雲端渲染畫面：[docs/screenshots/main.png](docs/screenshots/main.png)。這是雲端 Mac 以 Apple SwiftUI `ImageRenderer` 產生，角色共用 App 的 `CharacterHeadView`；它是可靠的靜態視覺參考，但不是已啟動 iOS Simulator 的實機截圖。
 
@@ -15,7 +15,7 @@ Mac 驗收範圍已全部進入原始碼：每日提問、澆水蓮蓬頭、歷�
 | 項目 | 狀態 | 備註 |
 |---|---|---|
 | SwiftUI App / Xcode project | CI 編譯通過 | 最低 iOS 17；Xcode 26.6 / iPhoneSimulator 26.5 SDK success |
-| 模組組裝層 | 第一階段完成，CI 通過 | `AppModules.live` 集中組裝；細節見 `MODULE_ARCHITECTURE.md` |
+| 模組組裝層 | 搬遷完成，CI 通過 | `AppModules.live` 集中組裝；另有不載入周邊服務的 `coreOnly` 組合 |
 | 巨大角色頭 | 已實作，待視覺 QA | 純 SwiftUI Shapes，可即時套用捏頭設定 |
 | 要洗／不洗 | 已實作，待互動 QA | 中央彈出視窗；可按 X 或點背景關閉 |
 | 不洗後頭髮膨脹 | 已實作，待互動 QA | messinessLevel clamp 在 0...3 |
@@ -31,8 +31,9 @@ Mac 驗收範圍已全部進入原始碼：每日提問、澆水蓮蓬頭、歷�
 | 睡前 unknown | 已實作，待跨日 QA | 睡前 10 分鐘；凌晨睡眠歸入前一個生活日 |
 | 動態 App icon | 已實作，待 iPhone QA | primary + Puffy / Max / Unknown alternate icons |
 | 本機持久化 | 已實作，待 kill/reopen QA | 使用 @AppStorage / UserDefaults JSON |
+| StoreKit storefront | 模組已實作、入口關閉 | 待正式 product ID、StoreKit configuration 與 Sandbox 實機 QA |
 
-## 明天驗收
+## 實機驗收
 
 逐項步驟與預期結果見 [MAC_ACCEPTANCE_CHECKLIST.md](MAC_ACCEPTANCE_CHECKLIST.md)。目前所有項目都只有「CI 可編譯」證據，沒有宣稱已通過實機操作。
 
