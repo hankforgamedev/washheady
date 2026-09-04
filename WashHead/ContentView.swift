@@ -3,6 +3,8 @@ import SwiftUI
 struct ContentView: View {
     @Environment(\.scenePhase) private var scenePhase
 
+    let modules: AppModules
+
     @AppStorage(WashHistory.storageKey) private var historyJSON = "{}"
     @AppStorage("lastStatus") private var lastStatusRaw = WashStatus.none.rawValue
     @AppStorage("lastStatusDate") private var lastStatusDate = 0.0
@@ -26,6 +28,10 @@ struct ContentView: View {
     @State private var showHistory = false
     @State private var showCharacterEditor = false
     @State private var showSettings = false
+
+    init(modules: AppModules = .live) {
+        self.modules = modules
+    }
 
     private var messinessLevel: Int {
         WashHistory.messinessLevel(in: historyJSON)
@@ -83,14 +89,22 @@ struct ContentView: View {
                     .accessibilityLabel("Hank 的大頭。點一下回答今天要不要洗頭。")
 
                     HStack(spacing: 16) {
-                        mainControlButton("calendar", label: "月曆") {
-                            showHistory = true
+                        if modules.history != nil {
+                            mainControlButton("calendar", label: "月曆") {
+                                showHistory = true
+                            }
                         }
-                        mainControlButton("face.smiling", label: "捏頭") {
-                            showCharacterEditor = true
+
+                        if modules.characterEditor != nil {
+                            mainControlButton("face.smiling", label: "捏頭") {
+                                showCharacterEditor = true
+                            }
                         }
-                        mainControlButton("gearshape.fill", label: "設定") {
-                            showSettings = true
+
+                        if modules.settings != nil {
+                            mainControlButton("gearshape.fill", label: "設定") {
+                                showSettings = true
+                            }
                         }
                     }
                     .padding(.bottom, max(14, geometry.safeAreaInsets.bottom))
@@ -127,40 +141,59 @@ struct ContentView: View {
         }
         .background(Color(red: 0.95, green: 0.91, blue: 0.82).ignoresSafeArea())
         .fullScreenCover(isPresented: $isWashing) {
-            WashInteractionView(
-                isPresented: $isWashing,
-                messinessLevel: messinessLevel,
-                appearance: appearance,
-                trustUser: $trustUser,
-                onAbandoned: abandonWash,
-                onWashed: finishWash
+            modules.washInteraction.makeView(
+                WashInteractionFeatureInput(
+                    isPresented: $isWashing,
+                    messinessLevel: messinessLevel,
+                    appearance: appearance,
+                    trustUser: $trustUser,
+                    onAbandoned: abandonWash,
+                    onWashed: finishWash
+                )
             )
         }
         .sheet(isPresented: $showHistory) {
-            HistoryView(historyJSON: $historyJSON, onRecordsChanged: recordsDidChange)
+            if let history = modules.history {
+                history.makeView(
+                    HistoryFeatureInput(
+                        historyJSON: $historyJSON,
+                        onRecordsChanged: recordsDidChange
+                    )
+                )
+            }
         }
         .sheet(isPresented: $showCharacterEditor) {
-            CharacterEditorView(
-                skinTone: $skinTone,
-                hairTone: $hairTone,
-                hairStyle: $hairStyle,
-                faceShape: $faceShape,
-                eyeScale: $eyeScale,
-                eyeYOffset: $eyeYOffset,
-                mouthStyle: $mouthStyle
-            )
+            if let characterEditor = modules.characterEditor {
+                characterEditor.makeView(
+                    CharacterEditorFeatureInput(
+                        skinTone: $skinTone,
+                        hairTone: $hairTone,
+                        hairStyle: $hairStyle,
+                        faceShape: $faceShape,
+                        eyeScale: $eyeScale,
+                        eyeYOffset: $eyeYOffset,
+                        mouthStyle: $mouthStyle
+                    )
+                )
+            }
         }
         .sheet(isPresented: $showSettings) {
-            SettingsView(
-                scheduleJSON: $scheduleJSON,
-                sleepMinuteOfDay: $sleepMinuteOfDay,
-                notificationsEnabled: $notificationsEnabled,
-                trustUser: $trustUser,
-                iconSyncEnabled: $iconSyncEnabled,
-                messinessLevel: messinessLevel,
-                isUnknown: isUnknownToday,
-                onSettingsChanged: refreshSystemFeatures
-            )
+            if let settings = modules.settings {
+                settings.makeView(
+                    SettingsFeatureInput(
+                        scheduleJSON: $scheduleJSON,
+                        sleepMinuteOfDay: $sleepMinuteOfDay,
+                        notificationsEnabled: $notificationsEnabled,
+                        trustUser: $trustUser,
+                        iconSyncEnabled: $iconSyncEnabled,
+                        messinessLevel: messinessLevel,
+                        isUnknown: isUnknownToday,
+                        reminders: modules.reminders,
+                        appIcons: modules.appIcons,
+                        onSettingsChanged: refreshSystemFeatures
+                    )
+                )
+            }
         }
         .onAppear {
             migrateLegacyRecordIfNeeded()
@@ -229,7 +262,7 @@ struct ContentView: View {
         historyJSON = WashHistory.updating(historyJSON, status: status, on: currentRecordDate)
         lastStatusRaw = status.rawValue
         lastStatusDate = Date().timeIntervalSince1970
-        NotificationManager.cancel(for: currentRecordDate)
+        modules.reminders.cancel(currentRecordDate)
         refreshSystemFeatures()
     }
 
@@ -289,18 +322,22 @@ struct ContentView: View {
         let remindersEnabled = notificationsEnabled
 
         Task {
-            await NotificationManager.refresh(
-                scheduleJSON: currentSchedule,
-                sleepMinuteOfDay: currentSleepTime,
-                historyJSON: currentHistory,
-                isEnabled: remindersEnabled
+            await modules.reminders.refresh(
+                ReminderRefreshInput(
+                    scheduleJSON: currentSchedule,
+                    sleepMinuteOfDay: currentSleepTime,
+                    historyJSON: currentHistory,
+                    isEnabled: remindersEnabled
+                )
             )
         }
 
         if iconSyncEnabled {
-            AppIconManager.sync(
-                messinessLevel: messinessLevel,
-                isUnknown: isUnknownToday
+            modules.appIcons.sync(
+                AppIconState(
+                    messinessLevel: messinessLevel,
+                    isUnknown: isUnknownToday
+                )
             )
         }
     }

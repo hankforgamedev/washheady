@@ -21,6 +21,7 @@
 - 捏頭：純 SwiftUI 分層角色的第一版參數編輯器
 - App icon：預先打包四組 icon，透過 UIApplication alternate icon API 切換
 - CI：GitHub Actions arm64 macOS 26 runner，固定 Xcode 26.6，只做無簽章 Simulator build
+- 模組：所有組裝集中在 `AppModules.live`；功能只透過 input struct、Binding 與 callback 交換資料
 
 ## Persistence keys
 
@@ -41,6 +42,7 @@
 ## 關鍵檔案
 
 - WashHead/ContentView.swift：持久狀態與主流程
+- WashHead/AppModules.swift：所有可替換功能與系統服務的 composition root
 - WashHead/CharacterHeadView.swift：巨大頭、澎髮與濕髮視覺
 - WashHead/WashInteractionView.swift：拖曳澆水蓮蓬頭、感應區、完成確認
 - WashHead/WashData.swift：歷史、澎度回算、生活日與七天排程資料
@@ -54,6 +56,7 @@
 - LONG_TERM_PRODUCT_SPEC.md：已確認的長期完成版方向
 - MAC_ACCEPTANCE_CHECKLIST.md：明天的操作驗收順序
 - DEV_STATUS.md：哪些已做、哪些尚未由 Mac 驗證
+- MODULE_ARCHITECTURE.md：模組邊界、依賴方向與擴充規則
 
 ## 刻意不做
 

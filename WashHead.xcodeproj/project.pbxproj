@@ -17,6 +17,7 @@
 		A10000000000000000000008 /* CharacterEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000009 /* CharacterEditorView.swift */; };
 		A10000000000000000000009 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000010 /* SettingsView.swift */; };
 		A10000000000000000000010 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000011 /* Assets.xcassets */; };
+		A10000000000000000000011 /* AppModules.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000012 /* AppModules.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		A20000000000000000000009 /* CharacterEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterEditorView.swift; sourceTree = "<group>"; };
 		A20000000000000000000010 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		A20000000000000000000011 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A20000000000000000000012 /* AppModules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModules.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 			isa = PBXGroup;
 			children = (
 				A20000000000000000000001 /* WashHeadApp.swift */,
+				A20000000000000000000012 /* AppModules.swift */,
 				A20000000000000000000002 /* ContentView.swift */,
 				A20000000000000000000003 /* CharacterHeadView.swift */,
 				A20000000000000000000004 /* WashInteractionView.swift */,
@@ -147,6 +150,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A10000000000000000000001 /* WashHeadApp.swift in Sources */,
+				A10000000000000000000011 /* AppModules.swift in Sources */,
 				A10000000000000000000002 /* ContentView.swift in Sources */,
 				A10000000000000000000003 /* CharacterHeadView.swift in Sources */,
 				A10000000000000000000004 /* WashInteractionView.swift in Sources */,

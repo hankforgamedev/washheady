@@ -12,6 +12,8 @@ struct SettingsView: View {
 
     let messinessLevel: Int
     let isUnknown: Bool
+    let reminders: ReminderServiceModule
+    let appIcons: AppIconServiceModule
     let onSettingsChanged: () -> Void
 
     @State private var schedules: [DaySchedule]
@@ -25,6 +27,8 @@ struct SettingsView: View {
         iconSyncEnabled: Binding<Bool>,
         messinessLevel: Int,
         isUnknown: Bool,
+        reminders: ReminderServiceModule,
+        appIcons: AppIconServiceModule,
         onSettingsChanged: @escaping () -> Void
     ) {
         _scheduleJSON = scheduleJSON
@@ -34,6 +38,8 @@ struct SettingsView: View {
         _iconSyncEnabled = iconSyncEnabled
         self.messinessLevel = messinessLevel
         self.isUnknown = isUnknown
+        self.reminders = reminders
+        self.appIcons = appIcons
         self.onSettingsChanged = onSettingsChanged
         _schedules = State(initialValue: ShowerScheduleCodec.decode(scheduleJSON.wrappedValue))
     }
@@ -44,7 +50,7 @@ struct SettingsView: View {
                 Section {
                     Button(notificationsEnabled ? "重新確認通知權限" : "啟用通知") {
                         Task {
-                            let granted = await NotificationManager.requestAuthorization()
+                            let granted = await reminders.requestAuthorization()
                             notificationsEnabled = granted
                             notificationMessage = granted
                                 ? "可以了。通知會按照下面七天的時間出現。"
@@ -99,12 +105,14 @@ struct SettingsView: View {
                     Toggle("讓桌面圖示跟著頭髮狀態", isOn: $iconSyncEnabled)
 
                     Button("現在同步一次 App icon") {
-                        AppIconManager.sync(
-                            messinessLevel: messinessLevel,
-                            isUnknown: isUnknown
+                        appIcons.sync(
+                            AppIconState(
+                                messinessLevel: messinessLevel,
+                                isUnknown: isUnknown
+                            )
                         )
                     }
-                    .disabled(!UIApplication.shared.supportsAlternateIcons)
+                    .disabled(!appIcons.isSupported())
                 } header: {
                     Text("動態 App icon")
                 } footer: {

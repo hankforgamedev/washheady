@@ -23,6 +23,8 @@
 
 一天版原始規格見 [PRODUCT_BRIEF.md](PRODUCT_BRIEF.md)，長期方向見 [LONG_TERM_PRODUCT_SPEC.md](LONG_TERM_PRODUCT_SPEC.md)，目前驗證狀態見 [DEV_STATUS.md](DEV_STATUS.md)。明天在 Mac 開始前先照 [MAC_ACCEPTANCE_CHECKLIST.md](MAC_ACCEPTANCE_CHECKLIST.md) 驗收。
 
+功能採可替換模組組裝；月曆、捏頭、設定、通知與 App icon 不直接綁死洗頭核心。邊界與新增功能規則見 [MODULE_ARCHITECTURE.md](MODULE_ARCHITECTURE.md)。
+
 ## 在 Mac 上執行
 
 1. 用 Xcode 開啟 WashHead.xcodeproj。

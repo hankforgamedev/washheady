@@ -1,0 +1,186 @@
+import SwiftUI
+import UIKit
+
+// MARK: - Feature inputs
+
+struct WashInteractionFeatureInput {
+    var isPresented: Binding<Bool>
+    let messinessLevel: Int
+    let appearance: CharacterAppearance
+    var trustUser: Binding<Bool>
+    let onAbandoned: () -> Void
+    let onWashed: (_ trustedAutomatically: Bool) -> Void
+}
+
+struct HistoryFeatureInput {
+    var historyJSON: Binding<String>
+    let onRecordsChanged: () -> Void
+}
+
+struct CharacterEditorFeatureInput {
+    var skinTone: Binding<Int>
+    var hairTone: Binding<Int>
+    var hairStyle: Binding<Int>
+    var faceShape: Binding<Int>
+    var eyeScale: Binding<Double>
+    var eyeYOffset: Binding<Double>
+    var mouthStyle: Binding<Int>
+}
+
+struct SettingsFeatureInput {
+    var scheduleJSON: Binding<String>
+    var sleepMinuteOfDay: Binding<Int>
+    var notificationsEnabled: Binding<Bool>
+    var trustUser: Binding<Bool>
+    var iconSyncEnabled: Binding<Bool>
+    let messinessLevel: Int
+    let isUnknown: Bool
+    let reminders: ReminderServiceModule
+    let appIcons: AppIconServiceModule
+    let onSettingsChanged: () -> Void
+}
+
+// MARK: - Replaceable feature modules
+
+struct WashInteractionFeatureModule {
+    let makeView: (WashInteractionFeatureInput) -> AnyView
+
+    static let live = Self { input in
+        AnyView(
+            WashInteractionView(
+                isPresented: input.isPresented,
+                messinessLevel: input.messinessLevel,
+                appearance: input.appearance,
+                trustUser: input.trustUser,
+                onAbandoned: input.onAbandoned,
+                onWashed: input.onWashed
+            )
+        )
+    }
+}
+
+struct HistoryFeatureModule {
+    let makeView: (HistoryFeatureInput) -> AnyView
+
+    static let live = Self { input in
+        AnyView(
+            HistoryView(
+                historyJSON: input.historyJSON,
+                onRecordsChanged: input.onRecordsChanged
+            )
+        )
+    }
+}
+
+struct CharacterEditorFeatureModule {
+    let makeView: (CharacterEditorFeatureInput) -> AnyView
+
+    static let live = Self { input in
+        AnyView(
+            CharacterEditorView(
+                skinTone: input.skinTone,
+                hairTone: input.hairTone,
+                hairStyle: input.hairStyle,
+                faceShape: input.faceShape,
+                eyeScale: input.eyeScale,
+                eyeYOffset: input.eyeYOffset,
+                mouthStyle: input.mouthStyle
+            )
+        )
+    }
+}
+
+struct SettingsFeatureModule {
+    let makeView: (SettingsFeatureInput) -> AnyView
+
+    static let live = Self { input in
+        AnyView(
+            SettingsView(
+                scheduleJSON: input.scheduleJSON,
+                sleepMinuteOfDay: input.sleepMinuteOfDay,
+                notificationsEnabled: input.notificationsEnabled,
+                trustUser: input.trustUser,
+                iconSyncEnabled: input.iconSyncEnabled,
+                messinessLevel: input.messinessLevel,
+                isUnknown: input.isUnknown,
+                reminders: input.reminders,
+                appIcons: input.appIcons,
+                onSettingsChanged: input.onSettingsChanged
+            )
+        )
+    }
+}
+
+// MARK: - Replaceable system services
+
+struct ReminderRefreshInput {
+    let scheduleJSON: String
+    let sleepMinuteOfDay: Int
+    let historyJSON: String
+    let isEnabled: Bool
+}
+
+struct ReminderServiceModule {
+    let requestAuthorization: () async -> Bool
+    let refresh: (ReminderRefreshInput) async -> Void
+    let cancel: (Date) -> Void
+
+    static let live = Self(
+        requestAuthorization: {
+            await NotificationManager.requestAuthorization()
+        },
+        refresh: { input in
+            await NotificationManager.refresh(
+                scheduleJSON: input.scheduleJSON,
+                sleepMinuteOfDay: input.sleepMinuteOfDay,
+                historyJSON: input.historyJSON,
+                isEnabled: input.isEnabled
+            )
+        },
+        cancel: { date in
+            NotificationManager.cancel(for: date)
+        }
+    )
+}
+
+struct AppIconState {
+    let messinessLevel: Int
+    let isUnknown: Bool
+}
+
+struct AppIconServiceModule {
+    let isSupported: @MainActor () -> Bool
+    let sync: @MainActor (AppIconState) -> Void
+
+    static let live = Self(
+        isSupported: {
+            UIApplication.shared.supportsAlternateIcons
+        },
+        sync: { state in
+            AppIconManager.sync(
+                messinessLevel: state.messinessLevel,
+                isUnknown: state.isUnknown
+            )
+        }
+    )
+}
+
+// MARK: - Composition root
+
+struct AppModules {
+    let washInteraction: WashInteractionFeatureModule
+    let history: HistoryFeatureModule?
+    let characterEditor: CharacterEditorFeatureModule?
+    let settings: SettingsFeatureModule?
+    let reminders: ReminderServiceModule
+    let appIcons: AppIconServiceModule
+
+    static let live = Self(
+        washInteraction: .live,
+        history: .live,
+        characterEditor: .live,
+        settings: .live,
+        reminders: .live,
+        appIcons: .live
+    )
+}
