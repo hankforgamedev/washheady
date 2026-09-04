@@ -1,5 +1,4 @@
 import SwiftUI
-import UIKit
 
 // MARK: - Feature inputs
 
@@ -111,28 +110,6 @@ struct SettingsFeatureModule {
     }
 }
 
-struct AppIconState {
-    let messinessLevel: Int
-    let isUnknown: Bool
-}
-
-struct AppIconServiceModule {
-    let isSupported: @MainActor () -> Bool
-    let sync: @MainActor (AppIconState) -> Void
-
-    static let live = Self(
-        isSupported: {
-            UIApplication.shared.supportsAlternateIcons
-        },
-        sync: { state in
-            AppIconManager.sync(
-                messinessLevel: state.messinessLevel,
-                isUnknown: state.isUnknown
-            )
-        }
-    )
-}
-
 // MARK: - Composition root
 
 struct AppModules {
@@ -150,5 +127,14 @@ struct AppModules {
         settings: .live,
         reminders: .live,
         appIcons: .live
+    )
+
+    static let coreOnly = Self(
+        washInteraction: .live,
+        history: nil,
+        characterEditor: nil,
+        settings: nil,
+        reminders: .disabled,
+        appIcons: .disabled
     )
 }

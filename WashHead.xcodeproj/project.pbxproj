@@ -23,6 +23,7 @@
 		A10000000000000000000014 /* NotificationActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000015 /* NotificationActionHandler.swift */; };
 		A10000000000000000000015 /* ReminderServiceModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000016 /* ReminderServiceModule.swift */; };
 		A10000000000000000000016 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000017 /* AppDelegate.swift */; };
+		A10000000000000000000017 /* AppIconServiceModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000018 /* AppIconServiceModule.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,7 @@
 		A20000000000000000000015 /* NotificationActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Infrastructure/Notifications/NotificationActionHandler.swift; sourceTree = "<group>"; };
 		A20000000000000000000016 /* ReminderServiceModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Infrastructure/Notifications/ReminderServiceModule.swift; sourceTree = "<group>"; };
 		A20000000000000000000017 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App/AppDelegate.swift; sourceTree = "<group>"; };
+		A20000000000000000000018 /* AppIconServiceModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Infrastructure/AppIcon/AppIconServiceModule.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 				A20000000000000000000015 /* NotificationActionHandler.swift */,
 				A20000000000000000000016 /* ReminderServiceModule.swift */,
 				A20000000000000000000017 /* AppDelegate.swift */,
+				A20000000000000000000018 /* AppIconServiceModule.swift */,
 				A20000000000000000000008 /* HistoryView.swift */,
 				A20000000000000000000009 /* CharacterEditorView.swift */,
 				A20000000000000000000010 /* SettingsView.swift */,
@@ -171,6 +174,7 @@
 				A10000000000000000000014 /* NotificationActionHandler.swift in Sources */,
 				A10000000000000000000015 /* ReminderServiceModule.swift in Sources */,
 				A10000000000000000000016 /* AppDelegate.swift in Sources */,
+				A10000000000000000000017 /* AppIconServiceModule.swift in Sources */,
 				A10000000000000000000002 /* ContentView.swift in Sources */,
 				A10000000000000000000003 /* CharacterHeadView.swift in Sources */,
 				A10000000000000000000004 /* WashInteractionView.swift in Sources */,
