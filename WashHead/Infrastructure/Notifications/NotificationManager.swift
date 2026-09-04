@@ -1,13 +1,5 @@
-import UIKit
+import Foundation
 import UserNotifications
-
-enum NotificationIdentifiers {
-    static let category = "WASH_QUESTION"
-    static let washYes = "WASH_YES"
-    static let washNo = "WASH_NO"
-    static let questionPrefix = "wash-question-"
-    static let unknownPrefix = "wash-unknown-"
-}
 
 enum NotificationManager {
     static func registerCategories() {
@@ -171,83 +163,5 @@ enum NotificationManager {
             second: 0,
             of: day
         )
-    }
-}
-
-@MainActor
-enum AppIconManager {
-    static func sync(messinessLevel: Int, isUnknown: Bool) {
-        let application = UIApplication.shared
-        guard application.supportsAlternateIcons else { return }
-
-        let desiredName: String?
-        if isUnknown {
-            desiredName = "AppIconUnknown"
-        } else if messinessLevel >= 3 {
-            desiredName = "AppIconMax"
-        } else if messinessLevel >= 1 {
-            desiredName = "AppIconPuffy"
-        } else {
-            desiredName = nil
-        }
-
-        guard application.alternateIconName != desiredName else { return }
-        application.setAlternateIconName(desiredName) { error in
-            if let error {
-                print("Unable to update app icon: \(error.localizedDescription)")
-            }
-        }
-    }
-}
-
-final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
-    func application(
-        _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
-    ) -> Bool {
-        UNUserNotificationCenter.current().delegate = self
-        NotificationManager.registerCategories()
-        return true
-    }
-
-    func userNotificationCenter(
-        _ center: UNUserNotificationCenter,
-        willPresent notification: UNNotification,
-        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
-    ) {
-        completionHandler([.banner, .sound])
-    }
-
-    func userNotificationCenter(
-        _ center: UNUserNotificationCenter,
-        didReceive response: UNNotificationResponse,
-        withCompletionHandler completionHandler: @escaping () -> Void
-    ) {
-        let defaults = UserDefaults.standard
-
-        switch response.actionIdentifier {
-        case NotificationIdentifiers.washYes:
-            defaults.set(true, forKey: "pendingOpenWash")
-
-        case NotificationIdentifiers.washNo:
-            let oldJSON = defaults.string(forKey: WashHistory.storageKey) ?? "{}"
-            let sleepMinute = defaults.object(forKey: "sleepMinuteOfDay") as? Int ?? 60
-            let recordDate = WashHistory.effectiveRecordDate(
-                for: Date(),
-                sleepMinuteOfDay: sleepMinute
-            )
-            defaults.set(
-                WashHistory.updating(oldJSON, status: .notWashed, on: recordDate),
-                forKey: WashHistory.storageKey
-            )
-            defaults.set(WashStatus.notWashed.rawValue, forKey: "lastStatus")
-            defaults.set(Date().timeIntervalSince1970, forKey: "lastStatusDate")
-            NotificationManager.cancel(for: recordDate)
-
-        default:
-            defaults.set(true, forKey: "pendingShowQuestion")
-        }
-
-        completionHandler()
     }
 }

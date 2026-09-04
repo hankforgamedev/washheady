@@ -12,12 +12,17 @@
 		A10000000000000000000003 /* CharacterHeadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000003 /* CharacterHeadView.swift */; };
 		A10000000000000000000004 /* WashInteractionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000004 /* WashInteractionView.swift */; };
 		A10000000000000000000005 /* WashData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000006 /* WashData.swift */; };
-		A10000000000000000000006 /* SystemFeatures.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000007 /* SystemFeatures.swift */; };
+		A10000000000000000000006 /* AppIconManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000007 /* AppIconManager.swift */; };
 		A10000000000000000000007 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000008 /* HistoryView.swift */; };
 		A10000000000000000000008 /* CharacterEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000009 /* CharacterEditorView.swift */; };
 		A10000000000000000000009 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000010 /* SettingsView.swift */; };
 		A10000000000000000000010 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000011 /* Assets.xcassets */; };
 		A10000000000000000000011 /* AppModules.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000012 /* AppModules.swift */; };
+		A10000000000000000000012 /* NotificationIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000013 /* NotificationIdentifiers.swift */; };
+		A10000000000000000000013 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000014 /* NotificationManager.swift */; };
+		A10000000000000000000014 /* NotificationActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000015 /* NotificationActionHandler.swift */; };
+		A10000000000000000000015 /* ReminderServiceModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000016 /* ReminderServiceModule.swift */; };
+		A10000000000000000000016 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000017 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,12 +32,17 @@
 		A20000000000000000000004 /* WashInteractionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WashInteractionView.swift; sourceTree = "<group>"; };
 		A20000000000000000000005 /* WashHead.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WashHead.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A20000000000000000000006 /* WashData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WashData.swift; sourceTree = "<group>"; };
-		A20000000000000000000007 /* SystemFeatures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemFeatures.swift; sourceTree = "<group>"; };
+		A20000000000000000000007 /* AppIconManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Infrastructure/AppIcon/AppIconManager.swift; sourceTree = "<group>"; };
 		A20000000000000000000008 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		A20000000000000000000009 /* CharacterEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterEditorView.swift; sourceTree = "<group>"; };
 		A20000000000000000000010 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		A20000000000000000000011 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A20000000000000000000012 /* AppModules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModules.swift; sourceTree = "<group>"; };
+		A20000000000000000000013 /* NotificationIdentifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Infrastructure/Notifications/NotificationIdentifiers.swift; sourceTree = "<group>"; };
+		A20000000000000000000014 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Infrastructure/Notifications/NotificationManager.swift; sourceTree = "<group>"; };
+		A20000000000000000000015 /* NotificationActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Infrastructure/Notifications/NotificationActionHandler.swift; sourceTree = "<group>"; };
+		A20000000000000000000016 /* ReminderServiceModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Infrastructure/Notifications/ReminderServiceModule.swift; sourceTree = "<group>"; };
+		A20000000000000000000017 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App/AppDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,7 +73,12 @@
 				A20000000000000000000003 /* CharacterHeadView.swift */,
 				A20000000000000000000004 /* WashInteractionView.swift */,
 				A20000000000000000000006 /* WashData.swift */,
-				A20000000000000000000007 /* SystemFeatures.swift */,
+				A20000000000000000000007 /* AppIconManager.swift */,
+				A20000000000000000000013 /* NotificationIdentifiers.swift */,
+				A20000000000000000000014 /* NotificationManager.swift */,
+				A20000000000000000000015 /* NotificationActionHandler.swift */,
+				A20000000000000000000016 /* ReminderServiceModule.swift */,
+				A20000000000000000000017 /* AppDelegate.swift */,
 				A20000000000000000000008 /* HistoryView.swift */,
 				A20000000000000000000009 /* CharacterEditorView.swift */,
 				A20000000000000000000010 /* SettingsView.swift */,
@@ -151,11 +166,16 @@
 			files = (
 				A10000000000000000000001 /* WashHeadApp.swift in Sources */,
 				A10000000000000000000011 /* AppModules.swift in Sources */,
+				A10000000000000000000012 /* NotificationIdentifiers.swift in Sources */,
+				A10000000000000000000013 /* NotificationManager.swift in Sources */,
+				A10000000000000000000014 /* NotificationActionHandler.swift in Sources */,
+				A10000000000000000000015 /* ReminderServiceModule.swift in Sources */,
+				A10000000000000000000016 /* AppDelegate.swift in Sources */,
 				A10000000000000000000002 /* ContentView.swift in Sources */,
 				A10000000000000000000003 /* CharacterHeadView.swift in Sources */,
 				A10000000000000000000004 /* WashInteractionView.swift in Sources */,
 				A10000000000000000000005 /* WashData.swift in Sources */,
-				A10000000000000000000006 /* SystemFeatures.swift in Sources */,
+				A10000000000000000000006 /* AppIconManager.swift in Sources */,
 				A10000000000000000000007 /* HistoryView.swift in Sources */,
 				A10000000000000000000008 /* CharacterEditorView.swift in Sources */,
 				A10000000000000000000009 /* SettingsView.swift in Sources */,

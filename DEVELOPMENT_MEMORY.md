@@ -46,7 +46,9 @@
 - WashHead/CharacterHeadView.swift：巨大頭、澎髮與濕髮視覺
 - WashHead/WashInteractionView.swift：拖曳澆水蓮蓬頭、感應區、完成確認
 - WashHead/WashData.swift：歷史、澎度回算、生活日與七天排程資料
-- WashHead/SystemFeatures.swift：本機通知 action、AppDelegate、alternate icon
+- WashHead/Infrastructure/Notifications：通知排程、action handling 與可替換 reminder service
+- WashHead/App/AppDelegate.swift：iOS app delegate，只轉送系統 notification callback
+- WashHead/Infrastructure/AppIcon：alternate icon 實作與可替換 icon service
 - WashHead/HistoryView.swift：月曆與歷史更正
 - WashHead/CharacterEditorView.swift：捏頭介面
 - WashHead/SettingsView.swift：洗澡時間、睡覺時間、通知與 icon 設定
