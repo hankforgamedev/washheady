@@ -4,9 +4,9 @@
 
 ## 當前結論
 
-明天 Mac 驗收範圍已全部進入原始碼：每日提問、澆水蓮蓬頭、歷史月曆、捏頭、通知 action、睡前 unknown 與四種狀態 App icon。GitHub Actions 已切到 arm64 macOS 26 runner，固定使用 Xcode 26.6／iOS 26 SDK 編譯；Windows 端仍無法取代 Simulator／iPhone 的觸控、通知與桌面 icon 驗收。
+Mac 驗收範圍已全部進入原始碼：每日提問、澆水蓮蓬頭、歷史月曆、捏頭、通知 action、睡前 unknown 與四種狀態 App icon。第一階段模組化也已完成：各功能透過 `AppModules` 組裝，月曆、捏頭、設定可個別替換，通知與 App icon 由 service module 注入。Windows 端仍無法取代 Simulator／iPhone 的觸控、通知與桌面 icon 驗收。
 
-最新通過的 CI：[Xcode 26 migration build](https://github.com/hankforgamedev/washheady/actions/runs/33726265268)。雲端實測環境為 macOS 26.5.2、arm64、Xcode 26.6（17F113）與 iPhoneSimulator 26.5 SDK，完整 target 顯示 `BUILD SUCCEEDED`。
+最新通過的 CI：[plug-in module boundaries build](https://github.com/hankforgamedev/washheady/actions/runs/33886040143)。雲端以 arm64 macOS 26、Xcode 26.6 與 iOS 26 SDK 完整編譯 target，模組化版本顯示 `BUILD SUCCEEDED`。
 
 目前雲端渲染畫面：[docs/screenshots/main.png](docs/screenshots/main.png)。這是雲端 Mac 以 Apple SwiftUI `ImageRenderer` 產生，角色共用 App 的 `CharacterHeadView`；它是可靠的靜態視覺參考，但不是已啟動 iOS Simulator 的實機截圖。
 
@@ -15,6 +15,7 @@
 | 項目 | 狀態 | 備註 |
 |---|---|---|
 | SwiftUI App / Xcode project | CI 編譯通過 | 最低 iOS 17；Xcode 26.6 / iPhoneSimulator 26.5 SDK success |
+| 模組組裝層 | 第一階段完成，CI 通過 | `AppModules.live` 集中組裝；細節見 `MODULE_ARCHITECTURE.md` |
 | 巨大角色頭 | 已實作，待視覺 QA | 純 SwiftUI Shapes，可即時套用捏頭設定 |
 | 要洗／不洗 | 已實作，待互動 QA | 中央彈出視窗；可按 X 或點背景關閉 |
 | 不洗後頭髮膨脹 | 已實作，待互動 QA | messinessLevel clamp 在 0...3 |
