@@ -27,6 +27,7 @@
 		A10000000000000000000018 /* HistoryFeatureModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000019 /* HistoryFeatureModule.swift */; };
 		A10000000000000000000019 /* CharacterAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000020 /* CharacterAppearance.swift */; };
 		A10000000000000000000020 /* CharacterEditorFeatureModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000021 /* CharacterEditorFeatureModule.swift */; };
+		A10000000000000000000021 /* SettingsFeatureModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000022 /* SettingsFeatureModule.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,7 +40,7 @@
 		A20000000000000000000007 /* AppIconManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Infrastructure/AppIcon/AppIconManager.swift; sourceTree = "<group>"; };
 		A20000000000000000000008 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/History/HistoryView.swift; sourceTree = "<group>"; };
 		A20000000000000000000009 /* CharacterEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Character/CharacterEditorView.swift; sourceTree = "<group>"; };
-		A20000000000000000000010 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		A20000000000000000000010 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Settings/SettingsView.swift; sourceTree = "<group>"; };
 		A20000000000000000000011 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A20000000000000000000012 /* AppModules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModules.swift; sourceTree = "<group>"; };
 		A20000000000000000000013 /* NotificationIdentifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Infrastructure/Notifications/NotificationIdentifiers.swift; sourceTree = "<group>"; };
@@ -51,6 +52,7 @@
 		A20000000000000000000019 /* HistoryFeatureModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/History/HistoryFeatureModule.swift; sourceTree = "<group>"; };
 		A20000000000000000000020 /* CharacterAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Character/CharacterAppearance.swift; sourceTree = "<group>"; };
 		A20000000000000000000021 /* CharacterEditorFeatureModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Character/CharacterEditorFeatureModule.swift; sourceTree = "<group>"; };
+		A20000000000000000000022 /* SettingsFeatureModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Settings/SettingsFeatureModule.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +93,7 @@
 				A20000000000000000000019 /* HistoryFeatureModule.swift */,
 				A20000000000000000000020 /* CharacterAppearance.swift */,
 				A20000000000000000000021 /* CharacterEditorFeatureModule.swift */,
+				A20000000000000000000022 /* SettingsFeatureModule.swift */,
 				A20000000000000000000008 /* HistoryView.swift */,
 				A20000000000000000000009 /* CharacterEditorView.swift */,
 				A20000000000000000000010 /* SettingsView.swift */,
@@ -187,6 +190,7 @@
 				A10000000000000000000018 /* HistoryFeatureModule.swift in Sources */,
 				A10000000000000000000019 /* CharacterAppearance.swift in Sources */,
 				A10000000000000000000020 /* CharacterEditorFeatureModule.swift in Sources */,
+				A10000000000000000000021 /* SettingsFeatureModule.swift in Sources */,
 				A10000000000000000000002 /* ContentView.swift in Sources */,
 				A10000000000000000000003 /* CharacterHeadView.swift in Sources */,
 				A10000000000000000000004 /* WashInteractionView.swift in Sources */,
