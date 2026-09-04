@@ -11,11 +11,6 @@ struct WashInteractionFeatureInput {
     let onWashed: (_ trustedAutomatically: Bool) -> Void
 }
 
-struct HistoryFeatureInput {
-    var historyJSON: Binding<String>
-    let onRecordsChanged: () -> Void
-}
-
 struct CharacterEditorFeatureInput {
     var skinTone: Binding<Int>
     var hairTone: Binding<Int>
@@ -53,19 +48,6 @@ struct WashInteractionFeatureModule {
                 trustUser: input.trustUser,
                 onAbandoned: input.onAbandoned,
                 onWashed: input.onWashed
-            )
-        )
-    }
-}
-
-struct HistoryFeatureModule {
-    let makeView: (HistoryFeatureInput) -> AnyView
-
-    static let live = Self { input in
-        AnyView(
-            HistoryView(
-                historyJSON: input.historyJSON,
-                onRecordsChanged: input.onRecordsChanged
             )
         )
     }

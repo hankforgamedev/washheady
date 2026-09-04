@@ -49,7 +49,7 @@
 - WashHead/Infrastructure/Notifications：通知排程、action handling 與可替換 reminder service
 - WashHead/App/AppDelegate.swift：iOS app delegate，只轉送系統 notification callback
 - WashHead/Infrastructure/AppIcon：alternate icon 實作與可替換 icon service
-- WashHead/HistoryView.swift：月曆與歷史更正
+- WashHead/Features/History：月曆 View 與可替換 feature contract
 - WashHead/CharacterEditorView.swift：捏頭介面
 - WashHead/SettingsView.swift：洗澡時間、睡覺時間、通知與 icon 設定
 - WashHead/Assets.xcassets：primary / Puffy / Max / Unknown app icons
