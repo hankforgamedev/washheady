@@ -32,6 +32,9 @@
 		A10000000000000000000023 /* WashQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000024 /* WashQuestionView.swift */; };
 		A10000000000000000000024 /* WashStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000025 /* WashStatus.swift */; };
 		A10000000000000000000025 /* ShowerSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000026 /* ShowerSchedule.swift */; };
+		A10000000000000000000026 /* StorefrontFeatureModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000027 /* StorefrontFeatureModule.swift */; };
+		A10000000000000000000027 /* StorefrontModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000028 /* StorefrontModel.swift */; };
+		A10000000000000000000028 /* StorefrontView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000029 /* StorefrontView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +64,9 @@
 		A20000000000000000000024 /* WashQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Wash/WashQuestionView.swift; sourceTree = "<group>"; };
 		A20000000000000000000025 /* WashStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core/WashStatus.swift; sourceTree = "<group>"; };
 		A20000000000000000000026 /* ShowerSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core/ShowerSchedule.swift; sourceTree = "<group>"; };
+		A20000000000000000000027 /* StorefrontFeatureModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Storefront/StorefrontFeatureModule.swift; sourceTree = "<group>"; };
+		A20000000000000000000028 /* StorefrontModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Storefront/StorefrontModel.swift; sourceTree = "<group>"; };
+		A20000000000000000000029 /* StorefrontView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Storefront/StorefrontView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +112,9 @@
 				A20000000000000000000024 /* WashQuestionView.swift */,
 				A20000000000000000000025 /* WashStatus.swift */,
 				A20000000000000000000026 /* ShowerSchedule.swift */,
+				A20000000000000000000027 /* StorefrontFeatureModule.swift */,
+				A20000000000000000000028 /* StorefrontModel.swift */,
+				A20000000000000000000029 /* StorefrontView.swift */,
 				A20000000000000000000008 /* HistoryView.swift */,
 				A20000000000000000000009 /* CharacterEditorView.swift */,
 				A20000000000000000000010 /* SettingsView.swift */,
@@ -215,6 +224,9 @@
 				A10000000000000000000009 /* SettingsView.swift in Sources */,
 				A10000000000000000000024 /* WashStatus.swift in Sources */,
 				A10000000000000000000025 /* ShowerSchedule.swift in Sources */,
+				A10000000000000000000026 /* StorefrontFeatureModule.swift in Sources */,
+				A10000000000000000000027 /* StorefrontModel.swift in Sources */,
+				A10000000000000000000028 /* StorefrontView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

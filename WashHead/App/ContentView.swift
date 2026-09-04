@@ -28,6 +28,7 @@ struct ContentView: View {
     @State private var showHistory = false
     @State private var showCharacterEditor = false
     @State private var showSettings = false
+    @State private var showStorefront = false
 
     init(modules: AppModules = .live) {
         self.modules = modules
@@ -104,6 +105,12 @@ struct ContentView: View {
                         if modules.settings != nil {
                             mainControlButton("gearshape.fill", label: "設定") {
                                 showSettings = true
+                            }
+                        }
+
+                        if modules.storefront != nil {
+                            mainControlButton("bag.fill", label: "角色包") {
+                                showStorefront = true
                             }
                         }
                     }
@@ -195,6 +202,11 @@ struct ContentView: View {
                         onSettingsChanged: refreshSystemFeatures
                     )
                 )
+            }
+        }
+        .sheet(isPresented: $showStorefront) {
+            if let storefront = modules.storefront {
+                storefront.makeView()
             }
         }
         .onAppear {

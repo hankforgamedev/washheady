@@ -23,7 +23,7 @@
 | `ReminderServiceModule` | 排程快照、權限、取消日期 | 可以換成 fake／新版排程器 |
 | `AppIconServiceModule` | `messinessLevel` + `isUnknown` | 可以換成 no-op／其他 icon 策略 |
 | `WashFeatureModule` | 每日提問 callbacks + 洗頭輸入 + 完成／放棄 callbacks | 可以換實作，但 App 必須保留一個版本 |
-| `StorefrontFeatureModule` | StoreKit 商品快照 + 購買／還原 commands | 規劃中；不得阻塞免費核心 |
+| `StorefrontFeatureModule` | StoreKit 商品快照 + 購買／還原 commands | 已實作、預設關閉；不得阻塞免費核心 |
 
 所有組裝集中在 `AppModules.live`。可選 UI 模組使用 optional；拿掉模組時，主畫面的入口也一起消失，不需要修改核心資料規則。
 
@@ -62,5 +62,5 @@ WashHeadApp
 6. [x] 設定：只組合 settings bindings 與注入服務。
 7. [x] 洗頭核心：獨立互動與每日提問邊界。
 8. [x] 共用 domain／app composition：只保留跨模組資料規則與接線。
-9. [ ] StoreKit：先提供可關閉的 storefront／entitlement 邊界；沒有正式 product id 前不顯示付費入口。
+9. [x] StoreKit：已提供可關閉的 storefront／verified entitlement 邊界；沒有正式 product id 前不顯示付費入口。
 10. [ ] Xcode 26 全量編譯與狀態文件更新。

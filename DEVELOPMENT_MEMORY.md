@@ -51,6 +51,7 @@
 - WashHead/Infrastructure/AppIcon：alternate icon 實作與可替換 icon service
 - WashHead/Features/History：月曆 View 與可替換 feature contract
 - WashHead/Features/Settings：洗澡時間、睡覺時間、通知與 icon 設定 module
+- WashHead/Features/Storefront：StoreKit 2 商品、購買、還原與 verified entitlement；目前無 product ID，因此入口關閉
 - WashHead/Assets.xcassets：primary / Puffy / Max / Unknown app icons
 - WashHead.xcodeproj/project.pbxproj：單一 iOS app target
 - PRODUCT_BRIEF.md：完整 build brief
