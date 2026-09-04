@@ -1,6 +1,6 @@
 # 模組架構
 
-最後更新：2026-09-04（Asia/Taipei）
+最後更新：2026-09-05（Asia/Taipei）
 
 目標是讓「洗頭核心」可以繼續調整，而月曆、捏頭、通知與 App icon 不必一起被重寫。這裡的模組是同一個 iOS target 內的可替換邊界；先不拆成多個 Swift Package，避免一天版專案多出無必要的建置成本。
 
@@ -23,6 +23,7 @@
 | `ReminderServiceModule` | 排程快照、權限、取消日期 | 可以換成 fake／新版排程器 |
 | `AppIconServiceModule` | `messinessLevel` + `isUnknown` | 可以換成 no-op／其他 icon 策略 |
 | `WashInteractionFeatureModule` | 洗頭輸入 + 完成／放棄 callbacks | 可以換實作，但 App 必須保留一個版本 |
+| `StorefrontFeatureModule` | StoreKit 商品快照 + 購買／還原 commands | 規劃中；不得阻塞免費核心 |
 
 所有組裝集中在 `AppModules.live`。可選 UI 模組使用 optional；拿掉模組時，主畫面的入口也一起消失，不需要修改核心資料規則。
 
@@ -51,9 +52,15 @@ WashHeadApp
 4. 先把新模組接成 optional，再由 `AppModules.live` 開啟。
 5. 每次只搬一個模組，推送後以 GitHub Actions 保持 `BUILD SUCCEEDED`。
 
-## 目前這一刀
+## 處理順序與狀態
 
-- 已建立所有現有功能的組裝接口。
-- 月曆、捏頭、設定可從 composition root 個別拔除或替換。
-- 通知和 App icon 已透過 service module 注入，不再由 `ContentView`／`SettingsView` 寫死呼叫。
-- 下一刀才移動實體檔案與拆分 `SystemFeatures.swift`；不在同一次重構同時改產品行為。
+1. [x] 建立所有現有功能的組裝接口。
+2. [ ] 通知：拆出排程、action handling 與 delegate。
+3. [ ] App icon：拆出狀態策略與 UIKit adapter。
+4. [ ] 歷史：獨立 feature folder 與 module contract。
+5. [ ] 角色／捏頭：獨立 appearance model、renderer、editor contract。
+6. [ ] 設定：只組合 settings bindings 與注入服務。
+7. [ ] 洗頭核心：獨立互動與每日提問邊界。
+8. [ ] 共用 domain／app composition：只保留跨模組資料規則與接線。
+9. [ ] StoreKit：先提供可關閉的 storefront／entitlement 邊界；沒有正式 product id 前不顯示付費入口。
+10. [ ] Xcode 26 全量編譯與狀態文件更新。
